@@ -1,0 +1,47 @@
+<section class="container">
+    <h1 class="my-3">
+        Orders
+
+        <a routerLink="add" class="text-primary ms-2">
+            <i class="bi bi-plus-circle-dotted"></i>
+        </a>
+    </h1>
+
+    @if (isLoading) {
+        <div class="placeholder-glow">
+            @for (item of _noOfData; track $index) {
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="row mb-md-2">
+                            <div class="col-md-3">
+                                <small class="col-5 placeholder placeholder-sm bg-secondary"></small>
+                                <span class="col-12 placeholder placeholder-sm"></span>
+                            </div>
+        
+                            <div class="col-md-4">
+                                <small class="col-5 placeholder placeholder-sm bg-secondary"></small>
+                                <span class="col-12 placeholder placeholder-sm"></span>
+                            </div>
+        
+                            <div class="col-md-5">
+                                <small class="col-5 placeholder placeholder-sm bg-secondary"></small>
+                                <span class="col-12 placeholder placeholder-sm"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    @else if (hasData) {
+    }
+    @else {
+        <div class="lead text-center text-muted py-4">
+            Click
+            <a routerLink="add" class="text-primary">
+                <i class="bi bi-plus-circle-dotted"></i>
+            </a>
+            to add an order
+        </div>
+    }
+</section>

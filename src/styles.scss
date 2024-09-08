@@ -1,0 +1,19 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+$body-bg: $gray-100;
+$enable-shadows: true;
+$enable-gradients: true;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+    margin: 0;
+}
+
+.btn[aria-expanded=false] .collapse-hide {
+    display: none;
+}
+.btn[aria-expanded=true] .expanded-hide {
+    display: none;
+}

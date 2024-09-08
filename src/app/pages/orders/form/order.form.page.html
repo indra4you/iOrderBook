@@ -1,0 +1,27 @@
+<section class="container">
+    <h1 class="my-3" aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a routerLink="/orders">Orders</a>
+            </li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ hasValidId ? "Edit" : "Add" }}
+            </li>
+        </ul>
+    </h1>
+
+    @if (hasError) {
+        <div class="alert alert-danger" role="alert">
+            <div class="row">
+                <div class="col-1">
+                    <i class="bi bi-patch-exclamation"></i>
+                </div>
+    
+                <div class="col-11">
+                    {{ errorMessage }}
+                </div>
+            </div>
+        </div>
+    }
+</section>
