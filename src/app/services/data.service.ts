@@ -148,6 +148,8 @@ export class DataService extends FileService {
     ): Promise<void> {
         this.validateOrderAndThrow(orderRequest);
 
+        // TODO: validate for unique
+
         const order: OrderModel = {
             id: this.nextOrderId,
             name: orderRequest.name,
@@ -164,6 +166,8 @@ export class DataService extends FileService {
         orderRequest: OrderRequest,
     ): Promise<void> {
         this.validateOrderAndThrow(orderRequest);
+
+        // TODO: validate for unique
 
         const orderIndex: number = this._root.orders.findIndex(order => order.id == orderId);
         if (this._root.orders[orderIndex].id != orderId) {

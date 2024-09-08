@@ -24,4 +24,49 @@
             </div>
         </div>
     }
+    @else if (isLoading) {
+    }
+    @else {
+        <div [formGroup]="mainFormGroup">
+            <fieldset>
+                <div class="row">
+                    <div class="col-lg-9 col-md-7 mb-3">
+                        <label for="name" class="form-label">Name</label>
+
+                        <input type="text" formControlName="name" id="name" #focusOn
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.name.errors, 'is-valid': mainFormGroupControls.name.valid }">
+
+                        @if (mainFormGroupControls.name.errors) {
+                            <div class="invalid-feedback">
+                                @if (mainFormGroupControls.name.errors.required) {
+                                    <div>Name is required</div>
+                                }
+                                @else if (mainFormGroupControls.name.errors.minLength) {
+                                    <div>Name at least should be 3 characters</div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col-lg-3 col-md-5 mb-3">
+                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+
+                        <input type="number" formControlName="mobileNumber" id="mobileNumber"
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.mobileNumber.errors, 'is-valid': mainFormGroupControls.mobileNumber.valid }">
+
+                        @if (mainFormGroupControls.mobileNumber.errors) {
+                            <div class="invalid-feedback">
+                                @if (mainFormGroupControls.mobileNumber.errors.required) {
+                                    <div>Mobile Number is required</div>
+                                }
+                                @else if (mainFormGroupControls.mobileNumber.errors.min || mainFormGroupControls.mobileNumber.errors.max) {
+                                    <div>Mobile Number must be 10 digit</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
 </section>

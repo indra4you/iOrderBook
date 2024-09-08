@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "mithay-samiti": {
+        "iorder-book": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -67,10 +67,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "mithay-samiti:build:production"
+                            "buildTarget": "iorder-book:build:production"
                         },
                         "development": {
-                            "buildTarget": "mithay-samiti:build:development"
+                            "buildTarget": "iorder-book:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

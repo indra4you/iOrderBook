@@ -9,7 +9,7 @@ import {
     OrderListPage,
 } from './pages';
 
-const APP_NAME: string = 'Mithay Samiti';
+const APP_NAME: string = 'iOrder Book';
 
 export const routes: Routes = [
     {

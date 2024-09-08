@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     Component,
 } from '@angular/core';
 import {
@@ -18,7 +19,7 @@ import {
     ],
     templateUrl: './order.list.page.html'
 })
-export class OrderListPage {
+export class OrderListPage implements AfterViewInit {
     public readonly _noOfData: number[] = [...Array(3).keys()];
 
     public isLoading: boolean = false;
