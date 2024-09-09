@@ -23,6 +23,7 @@ import {
 
 import {
     DataService,
+    OrderProductRequest,
     OrderRequest,
 } from '../../../services';
 
@@ -45,6 +46,8 @@ export class OrderFormPage implements OnInit {
     public isLoading: boolean = true;
     public mainFormGroup: FormGroup;
     public isSaving: boolean = false;
+    public showProductForm: boolean = false;
+    public productList: OrderProductRequest[] = [];
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -76,6 +79,9 @@ export class OrderFormPage implements OnInit {
             mobileNumber: new FormControl('', [Validators.required, Validators.min(1000000000), Validators.max(9999999999)]),
         });
 
+        if (this.hasValidId) {
+        }
+
         this.isLoading = false;
 
         setTimeout(
@@ -102,6 +108,21 @@ export class OrderFormPage implements OnInit {
     public get isFormValid(
     ): boolean {
         return this.mainFormGroup.valid;
+    }
+
+    public onAddProductClicked(
+    ): boolean {
+        this.showProductForm = true;
+
+        return false;
+    }
+
+    public onProductFormClose(
+        product: OrderProductRequest | null,
+    ): void {
+        if (product !== null) {
+            this.productList.push(product);
+        }
     }
 
     public async onSubmitClicked(
