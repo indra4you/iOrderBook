@@ -10,7 +10,9 @@ export class FileReadFailedError extends Error {
 export class FileWriteFailedError extends Error {
 };
 
-export class FileFeatures {
+export class FileService {
+    private _fileHandle: FileSystemFileHandle | null = null;
+
     public get canOpenFile(
     ): boolean {
         return "showOpenFilePicker" in window;
@@ -25,21 +27,7 @@ export class FileFeatures {
     ): boolean {
         return this.canOpenFile && this.canOpenFile;
     }
-};
 
-export class FileService {
-    private _features: FileFeatures = new FileFeatures();
-    private _fileHandle: FileSystemFileHandle | null = null;
-
-    constructor(
-    ) {
-    }
-
-    public get features(
-    ): FileFeatures {
-        return this._features;
-    }
-    
     private setHandle(
         handle: FileSystemFileHandle | null
     ): void {
@@ -48,12 +36,12 @@ export class FileService {
 
     public get hasHandle(
     ): boolean {
-        return this._fileHandle != null;
+        return this._fileHandle !== null;
     }
 
     public async create(
     ): Promise<boolean> {
-        if (!this.features.canSaveFile) {
+        if (!this.canSaveFile) {
             throw new FileFeatureNotAvailableError(
                 'File Feature "Write" is not available with current Operating System & version of the Browser',
             );
@@ -74,7 +62,7 @@ export class FileService {
 
     public async open(
     ): Promise<boolean> {
-        if (!this.features.canOpenFile) {
+        if (!this.canOpenFile) {
             throw new FileFeatureNotAvailableError(
                 'File Feature "Open" is not available with current Operating System & version of the Browser',
             );
@@ -116,36 +104,6 @@ export class FileService {
         return null;
     }
 
-    public async lastModified(
-    ): Promise<Date> {
-        this.validateHandleAndThrow();
-
-        try {
-            const file: File = await this._fileHandle!.getFile();
-            const dateTime: number = await file.lastModified;
-            return new Date(dateTime);
-        } catch (error) {
-            console.error(error);
-
-            throw error;
-        }
-    }
-
-    public async type(
-    ): Promise<string> {
-        this.validateHandleAndThrow();
-
-        try {
-            const file: File = await this._fileHandle!.getFile();
-            const type: string = await file.type;
-            return type;
-        } catch (error) {
-            console.error(error);
-
-            throw error;
-        }
-    }
-
     public async readAsString(
     ): Promise<string> {
         this.validateHandleAndThrow();
@@ -153,36 +111,6 @@ export class FileService {
         try {
             const file: File = await this._fileHandle!.getFile();
             const content: string = await file.text();
-            return content;
-        } catch (error) {
-            console.error(error);
-
-            throw new FileReadFailedError();
-        }
-    }
-
-    public async readAsArray(
-    ): Promise<ArrayBuffer> {
-        this.validateHandleAndThrow();
-
-        try {
-            const file: File = await this._fileHandle!.getFile();
-            const content: ArrayBuffer = await file.arrayBuffer();
-            return content;
-        } catch (error) {
-            console.error(error);
-
-            throw new FileReadFailedError();
-        }
-    }
-
-    public async readAsStream(
-    ): Promise<ReadableStream> {
-        this.validateHandleAndThrow();
-
-        try {
-            const file: File = await this._fileHandle!.getFile();
-            const content: ReadableStream = await file.stream();
             return content;
         } catch (error) {
             console.error(error);
@@ -211,25 +139,4 @@ export class FileService {
             throw new FileWriteFailedError();
         }
     }
-
-    public async writeArray(
-        value: ArrayBuffer,
-        overWriteExistingData: boolean = true,
-    ): Promise<void> {
-        this.validateHandleAndThrow();
-
-        try {
-            const fileWritableOptions: FileSystemCreateWritableOptions = {
-                keepExistingData: !overWriteExistingData,
-            };
-            const writableStream: FileSystemWritableFileStream =
-                await this._fileHandle!.createWritable(fileWritableOptions);
-            await writableStream.write(value);
-            await writableStream.close();
-        } catch (error) {
-            console.error(error);
-
-            throw new FileWriteFailedError();
-        }
-    }
-};
+}

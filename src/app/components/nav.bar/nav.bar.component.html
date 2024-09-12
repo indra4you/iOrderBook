@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark text-bg-primary">
     <div class="container">
-        <a routerLink="/" class="navbar-brand mb-0 h1">
+        <a routerLink="/" class="navbar-brand mb-0 h1 fs-4">
             <i class="bi bi-hdd-rack"></i>
             <span class="ms-2">iOrder Book</span>
         </a>
@@ -12,23 +12,30 @@
         <div id="navbarContent" class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a routerLink="/dashboard" class="nav-link active">
+                    <a routerLink="/dashboard" class="nav-link fs-5" routerLinkActive="active">
                         <i class="bi bi-display"></i>
                         <span class="ms-2">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a routerLink="/orders" class="nav-link active">
-                        <i class="bi bi-receipt"></i>
+                    <a routerLink="/orders" class="nav-link fs-5" routerLinkActive="active">
+                        <i class="bi bi-postcard"></i>
                         <span class="ms-2">Orders</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a routerLink="/products" class="nav-link fs-5" routerLinkActive="active">
+                        <i class="bi bi-receipt"></i>
+                        <span class="ms-2">Products</span>
                     </a>
                 </li>
             </ul>
 
             <ul class="navbar-nav d-flex">
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="nav-link fs-5 active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <abbr title="iData File">
                             <span class="ms-2">{{ fileName }}</span>
                         </abbr>
@@ -37,7 +44,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         @if (!hasFileHandle) {
                             <li>
-                                <button type="button" (click)="saveClicked()" class="dropdown-item">
+                                <button type="button" (click)="saveClicked()" class="dropdown-item fs-5">
                                     <i class="bi bi-download"></i>
                                     <span class="ms-2">Save to File</span>
                                 </button>
@@ -45,7 +52,7 @@
                         }
 
                         <li>
-                            <button type="button" (click)="openClicked()" class="dropdown-item">
+                            <button type="button" (click)="openClicked()" class="dropdown-item fs-5">
                                 <i class="bi bi-upload"></i>
                                 <span class="ms-2">Open File</span>
                             </button>
@@ -57,7 +64,7 @@
                             </li>
                             
                             <li>
-                                <button type="button" (click)="closeClicked()" class="dropdown-item">
+                                <button type="button" (click)="closeClicked()" class="dropdown-item fs-5">
                                     <i class="bi bi-x-octagon"></i>
                                     <span class="ms-2">Close File</span>
                                 </button>

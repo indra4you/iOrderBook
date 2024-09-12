@@ -5,8 +5,8 @@ import {
 import {
     DashboardPage,
     NotFoundPage,
-    OrderFormPage,
     OrderListPage,
+    ProductListPage,
 } from './pages';
 
 const APP_NAME: string = 'iOrder Book';
@@ -17,15 +17,17 @@ export const routes: Routes = [
         component: DashboardPage,
         title: `Dashboard - ${APP_NAME}`,
     },
+
     {
         path: 'orders',
         component: OrderListPage,
         title: `Orders - ${APP_NAME}`,
     },
+
     {
-        path: 'orders/add',
-        component: OrderFormPage,
-        title: `Add Order - ${APP_NAME}`,
+        path: 'products',
+        component: ProductListPage,
+        title: `Products - ${APP_NAME}`,
     },
 
     {

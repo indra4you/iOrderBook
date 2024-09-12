@@ -1,15 +1,14 @@
 import {
-    AfterViewInit,
     Component,
+    OnInit,
 } from '@angular/core';
 import {
     RouterLink,
 } from '@angular/router';
 
 import {
-    DataService,
     OrderModel,
-    RootModel,
+    OrdersService,
 } from '../../../services';
 
 @Component({
@@ -19,22 +18,25 @@ import {
     ],
     templateUrl: './order.list.page.html'
 })
-export class OrderListPage implements AfterViewInit {
-    public readonly _noOfData: number[] = [...Array(3).keys()];
+export class OrderListPage implements OnInit {
+    public readonly _noOfFields: number[] = [...Array(3).keys()];
 
-    public isLoading: boolean = false;
-    public list: OrderModel[] = [];
+    public isLoading: boolean = true;
+    public orders: OrderModel[] = [];
+    public showOrderForm: boolean = false;
+    public showOrderDelete: boolean = false;
+    public orderEditOrDeleteId: number = 0;
 
     constructor(
-        private readonly _dataService: DataService,
+        private readonly _ordersService: OrdersService,
     ) {
     }
 
-    public ngAfterViewInit(
+    ngOnInit(
     ): void {
         setTimeout(
             () => this.load(),
-            500,
+            500
         );
     }
 
@@ -42,26 +44,58 @@ export class OrderListPage implements AfterViewInit {
     ): Promise<void> {
         this.isLoading = true;
 
-        try {
-            const root: RootModel = await this._dataService.getRoot();
-            const order: OrderModel[] = root.orders ?? [];
-
-            this.list = order
-                .sort(
-                    (a, b) => a.name.localeCompare(b.name)
-                );
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setTimeout(
-                () => this.isLoading = false,
-                500,
-            );
-        }
+        this.orders = await this._ordersService.getAll();
+        
+        this.isLoading = false;
     }
 
-    public get hasData(
+    public get hasOrders(
     ): boolean {
-        return this.list.length > 0;
+        return this.orders.length > 0;
+    }
+
+    public onAddOrderClicked(
+    ): boolean {
+        this.showOrderForm = true;
+
+        return false;
+    }
+
+    public onEditOrderClicked(
+        index: number,
+    ): void {
+        const order: OrderModel = this.orders[index];
+
+        this.orderEditOrDeleteId = order.id;
+        this.showOrderForm = true;
+    }
+
+    public onOrderFormClose(
+    ): void {
+        this.orderEditOrDeleteId = 0;
+        this.showOrderForm = false;
+
+        this.load();
+    }
+
+    public onDeleteOrderClicked(
+        index: number,
+    ): void {
+        const order: OrderModel = this.orders[index];
+
+        this.orderEditOrDeleteId = order.id;
+        this.showOrderDelete = true;
+    }
+
+    public onOrderDeleteClose(
+        deleted: boolean,
+    ): void {
+        this.showOrderDelete = false;
+
+        if (deleted) {
+            this.orderEditOrDeleteId = 0;
+
+            this.load();
+        }
     }
 };

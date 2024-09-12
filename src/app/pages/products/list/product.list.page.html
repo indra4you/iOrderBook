@@ -1,8 +1,8 @@
 <section class="container">
     <h1 class="my-3">
-        Orders
+        Products
 
-        <a href="#" (click)="onAddOrderClicked()" class="text-primary ms-2">
+        <a href="#" (click)="onAddProductClicked()" class="text-primary ms-2">
             <i class="bi bi-plus-circle-dotted"></i>
         </a>
     </h1>
@@ -22,9 +22,9 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Name</th>
-                    <th scope="col" class="text-end">Mobile Number</th>
-                    <th scope="col" class="text-end">No of Products</th>
-                    <th scope="col" class="text-end">Total Amount</th>
+                    <th scope="col" class="text-end">Price</th>
+                    <th scope="col" class="text-end">Quantity</th>
+                    <th scope="col" class="text-end">Order</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -61,23 +61,25 @@
                         </tr>
                     }
                 }
-                @else if (hasOrders) {
-                    @for (order of orders; track $index) {
+                @else if (hasProducts) {
+                    @for (product of products; track $index) {
                         <tr>
                             <th scope="row" class="text-end">{{ $index + 1 }}.</th>
-                            <td>{{ order.name }}</td>
-                            <td class="text-end">{{ order.mobileNumber }}</td>
-                            <td class="text-end">{{ order.products.length }}</td>
-                            <td class="text-end"></td>
+                            <td>{{ product.name }}</td>
+                            <td class="text-end">{{ product.price }}</td>
+                            <td class="text-end">{{ product.quantity }}</td>
+                            <td class="text-end">{{ product.sort }}</td>
                             <td class="text-end">
                                 <div class="btn-group">
-                                    <button type="button" (click)="onEditOrderClicked($index)" class="btn btn-outline-primary">
+                                    <button type="button" (click)="onEditProductClicked($index)" class="btn btn-outline-primary">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     
-                                    <button type="button" (click)="onDeleteOrderClicked($index)" class="btn btn-outline-danger">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
+                                    @if (canDelete($index)) {
+                                        <button type="button" (click)="onDeleteProductClicked($index)" class="btn btn-outline-danger">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -87,10 +89,10 @@
                     <tr>
                         <td colspan="6" class="lead text-center text-muted py-2">
                             Click
-                            <a href="#" (click)="onAddOrderClicked()" class="text-primary">
+                            <a href="#" (click)="onAddProductClicked()" class="text-primary">
                                 <i class="bi bi-plus-circle-dotted"></i>
                             </a>
-                            to add a order
+                            to add a product
                         </td>
                     </tr>
                 }
@@ -98,3 +100,11 @@
         </table>
     </div>
 </section>
+
+@if (showProductForm) {
+    <product-form [id]="productEditOrDeleteId" (onClose)="onProductFormClose()"></product-form>
+}
+
+@if (showProductDelete) {
+    <product-delete [id]="productEditOrDeleteId" (onClose)="onProductDeleteClose($event)"></product-delete>
+}

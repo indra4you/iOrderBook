@@ -36,16 +36,23 @@ export class NavBarComponent {
     ): Promise<void> {
         const result: boolean = await this._dataService.create();
         if (result) {
-            await this._dataService.saveRoot();
+            await this._dataService.saveAsRoot();
         }
     }
 
     public async openClicked(
     ): Promise<void> {
+        if (this._dataService.isDirty) {
+            const response: boolean = confirm('Looks like there are Products and/or Orders in the "Memory" which will be gone once if you open an existing file.\n\nAre you sure you still want to open the file?');
+            if (!response) {
+                return;
+            }
+        }
+
         const result: boolean = await this._dataService.open();
         if (result) {
             this._router.navigate(
-                ['/']
+                ['/'],
             );
         }
     }
@@ -55,12 +62,16 @@ export class NavBarComponent {
         return this._dataService.hasHandle;
     }
 
-    public async closeClicked(
-    ): Promise<void> {
+    public closeClicked(
+    ): void {
+        if (!this.hasFileHandle) {
+            return;
+        }
+
         this._dataService.close();
 
         this._router.navigate(
-            ['/']
+            ['/'],
         );
     }
 };
