@@ -1,4 +1,7 @@
 import {
+    NgClass,
+} from '@angular/common';
+import {
     Component,
     OnInit,
 } from '@angular/core';
@@ -9,6 +12,7 @@ import {
 import {
     OrderResponse,
     OrdersService,
+    OrderStatus,
     ProductModel,
     ProductsService,
 } from '../../../services';
@@ -17,6 +21,7 @@ import {
     standalone: true,
     imports: [
         RouterLink,
+        NgClass,
     ],
     templateUrl: './order.list.page.html'
 })
@@ -57,5 +62,30 @@ export class OrderListPage implements OnInit {
     public get hasOrders(
     ): boolean {
         return this.orders.length > 0;
+    }
+
+    public getOrderStatusText(
+        orderStatus: OrderStatus,
+    ): string {
+        return OrderStatus.toString(orderStatus);
+    }
+
+    public getOrderStatusClass(
+        orderStatus: OrderStatus,
+    ): string {
+        switch (orderStatus) {
+            case OrderStatus.InProgress:
+                return 'border-danger-subtle bg-danger-subtle';
+            case OrderStatus.Saved:
+                return 'border-primary-subtle bg-primary-subtle';
+            case OrderStatus.Delivered:
+                return 'border-success-subtle bg-success-subtle';
+        }
+    }
+
+    public canEdit(
+        orderStatus: OrderStatus,
+    ): boolean {
+        return orderStatus < OrderStatus.Delivered;
     }
 };

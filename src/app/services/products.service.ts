@@ -61,7 +61,7 @@ export class ProductsService {
     ): ProductResponse[] {
         return products
             .map(
-                (value) => this.toProductResponse(value, orders)
+                (value: ProductModel) => this.toProductResponse(value, orders)
             );
     }
 
@@ -82,8 +82,14 @@ export class ProductsService {
         const root: RootModel = await this._dataService.getRoot();
         const products: ProductModel[] = root.products ?? [];
         const [product]: ProductModel[] = products.filter(
-            (value) => value.id === id
+            (value: ProductModel) => value.id === id
         );
+
+        if (product === null || product === undefined) {
+            throw new DataNotFoundError(
+                `Product with Id "${id}" not found`,
+            );
+        }
 
         return this.toProductResponse(
             product,
@@ -98,7 +104,7 @@ export class ProductsService {
         root.products = root.products ?? [];
 
         const filteredProducts: ProductModel[] = root.products.filter(
-            (value) => value.name === request.name
+            (value: ProductModel) => value.name === request.name
         );
         if (filteredProducts.length > 0) {
             throw new DataNotUniqueError(
@@ -135,7 +141,7 @@ export class ProductsService {
         }
 
         const products: ProductModel[] = root.products.filter(
-            (value) => value.id !== id && value.name === request.name
+            (value: ProductModel) => value.id !== id && value.name === request.name
         );
         if (products.length > 0) {
             throw new DataNotUniqueError(

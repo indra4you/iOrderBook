@@ -16,7 +16,7 @@ export class DataNotFoundError extends Error {
 };
 
 export class DataReferenceError extends Error {
-}
+};
 
 @Injectable({
     providedIn: 'root',

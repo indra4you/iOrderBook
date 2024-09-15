@@ -39,16 +39,18 @@
                     <col>
                     <col>
                     <col>
+                    <col>
                     <col width="3%">
                 </colgroup>
 
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col" class="text-end">#</th>
                         <th scope="col">Name</th>
                         <th scope="col" class="text-end">Mobile</th>
                         <th scope="col" class="text-end">Total Packets</th>
                         <th scope="col" class="text-end">Total Amount</th>
+                        <th scope="col">Status</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -77,6 +79,11 @@
                                         <div class="col-12 placeholder placeholder-sm"></div>
                                     </div>
                                 </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </td>
                                 <td colspan="2">
                                     <div class="placeholder-glow">
                                         <div class="col-12 placeholder placeholder-sm"></div>
@@ -88,17 +95,28 @@
                     @else if (hasOrders) {
                         @for (order of orders; track $index) {
                             <tr>
-                                <th scope="row" class="text-end">{{ $index + 1 }}.</th>
+                                <th scope="row" class="text-end">{{ order.id }}.</th>
                                 <td>{{ order.name }}</td>
                                 <td class="text-end">{{ order.mobileNumber }}</td>
                                 <td class="text-end">{{ order.totalNumberOfPackets }}</td>
-                                <td class="text-end">{{ order.totalAmount }}</td>
+                                <td class="text-end">{{ order.totalAmount }} ₹</td>
+                                <td>
+                                    <span class="border rounded-pill py-1 px-2 font-monospace fw-light fs-6" [ngClass]="getOrderStatusClass(order.status)">
+                                        {{ getOrderStatusText(order.status) }}
+                                    </span>
+                                </td>
                                 <td class="text-end">
                                     <div class="btn-group">
-                                        <a [routerLink]="[order.id]" class="btn btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                    </div>
+                                        @if (canEdit(order.status)) {
+                                            <a [routerLink]="[order.id]" class="btn btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            
+                                            <a [routerLink]="[order.id, 'delete']" class="btn btn-outline-danger">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        }
+                                </div>
                                 </td>
                             </tr>
                         }

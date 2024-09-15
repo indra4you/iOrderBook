@@ -189,9 +189,9 @@
                                         <th scope="row" class="text-end">{{ $index + 1 }}.</th>
                                         <td>{{ orderProduct.product.name }}</td>
                                         <td class="text-end">{{ orderProduct.product.quantity }} grams</td>
-                                        <td class="text-end">{{ orderProduct.product.price }}</td>
+                                        <td class="text-end">{{ orderProduct.product.price }} ₹</td>
                                         <td class="text-end">{{ orderProduct.numberOfPackets }}</td>
-                                        <td class="text-end">{{ orderProduct.amount }}</td>
+                                        <td class="text-end">{{ orderProduct.amount }} ₹</td>
                                         <td class="text-end">
                                             <div class="btn-group">
                                                 <button type="button" (click)="onEditOrderProductClicked($index)" class="btn btn-outline-primary">
@@ -214,7 +214,7 @@
                                     <th></th>
                                     <th></th>
                                     <th class="text-end">{{ totalNumberOfPackets }}</th>
-                                    <th class="text-end">{{ totalAmount }}</th>
+                                    <th class="text-end">{{ totalAmount }} ₹</th>
                                     <th></th>
                                 </tr>
                             </tfoot>

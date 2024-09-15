@@ -5,6 +5,7 @@ import {
 import {
     OrderModel,
     OrderProductModel,
+    OrderStatus,
     ProductModel,
     RootModel,
 } from './data.models';
@@ -23,6 +24,7 @@ export type OrderProductResponse = {
 
 export type OrderResponse = {
     id: number,
+    status: OrderStatus,
     name: string,
     mobileNumber: string,
     products: OrderProductResponse[],
@@ -91,6 +93,7 @@ export class OrdersService {
 
         return {
             id: order.id,
+            status: order.status,
             name: order.name,
             mobileNumber: order.mobileNumber,
             products: orderProducts,
@@ -113,7 +116,7 @@ export class OrdersService {
         orders: OrderModel[],
     ): number {
         return 1 + Math.max(
-            ...orders.map((value) => value.id)
+            ...orders.map((value: OrderModel) => value.id)
         );
     }
 
@@ -121,18 +124,19 @@ export class OrdersService {
         orderProductModels: OrderProductModel[],
     ): OrderProductModel[] {
         return Object.values(
-            orderProductModels.reduce(
-                (runningItem, current) => {
-                    if (runningItem[current.productId]) {
-                        runningItem[current.productId].numberOfPackets += current.numberOfPackets;
-                    } else {
-                        runningItem[current.productId] = { ...current };
-                    }
+            orderProductModels
+                .reduce(
+                    (runningItem: { [key: string]: OrderProductModel }, current: OrderProductModel) => {
+                        if (runningItem[current.productId]) {
+                            runningItem[current.productId].numberOfPackets += current.numberOfPackets;
+                        } else {
+                            runningItem[current.productId] = { ...current };
+                        }
 
-                    return runningItem;
-                },
-                { } as { [key: string]: OrderProductModel },
-            )
+                        return runningItem;
+                    },
+                    { } as { [key: string]: OrderProductModel },
+                )
         )
     }
 
@@ -153,8 +157,14 @@ export class OrdersService {
         const root: RootModel = await this._dataService.getRoot();
         const orders: OrderModel[] = root.orders ?? [];
         const [order]: OrderModel[] = orders.filter(
-            (value) => value.id === id
+            (value: OrderModel) => value.id === id
         );
+
+        if (order === null || order === undefined) {
+            throw new DataNotFoundError(
+                `Order with Id "${id}" not found`,
+            );
+        }
 
         return this.toOrderResponse(
             order,
@@ -169,7 +179,7 @@ export class OrdersService {
         root.orders = root.orders ?? [];
 
         const filteredOrders: OrderModel[] = root.orders.filter(
-            (value) => value.name === request.name
+            (value: OrderModel) => value.name === request.name
         );
         if (filteredOrders.length > 0) {
             throw new DataNotUniqueError(
@@ -195,6 +205,7 @@ export class OrdersService {
 
         const order: OrderModel = {
             id: this.getNextOrderId(root.orders),
+            status: OrderStatus.Saved,
             name: request.name,
             mobileNumber: request.mobileNumber,
             products: this.toSummarizeOrderProducts(request.products),
@@ -221,7 +232,7 @@ export class OrdersService {
         }
 
         const orders: OrderModel[] = root.orders.filter(
-            (value) => value.id !== id && value.name === request.name
+            (value: OrderModel) => value.id !== id && value.name === request.name
         );
         if (orders.length > 0) {
             throw new DataNotUniqueError(
@@ -247,6 +258,7 @@ export class OrdersService {
 
         const order: OrderModel = {
             id: id,
+            status: OrderStatus.Saved,
             name: request.name,
             mobileNumber: request.mobileNumber,
             products: this.toSummarizeOrderProducts(request.products),

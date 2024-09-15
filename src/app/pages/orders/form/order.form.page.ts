@@ -30,6 +30,7 @@ import {
     OrderRequest,
     OrderResponse,
     OrdersService,
+    OrderStatus,
 } from '../../../services';
 import {
     toTrim,
@@ -119,13 +120,20 @@ export class OrderFormPage implements AfterViewInit {
     private async load(
     ): Promise<OrderResponse> {
         if (this.hasValidId) {
-            const order: OrderResponse = await this._ordersService.getById(this.id!);
+            try {
+                const order: OrderResponse = await this._ordersService.getById(this.id!);
 
-            return order;
+                return order;
+            } catch (error) {
+                this._router.navigate(
+                    ['/orders'],
+                );
+            }
         }
 
         return {
             id: -1,
+            status: OrderStatus.InProgress,
             name: '',
             mobileNumber: '',
             products: [],
@@ -158,7 +166,7 @@ export class OrderFormPage implements AfterViewInit {
     ): number {
         return this.orderProductList
             .reduce(
-                (runningSum, current) => runningSum += current.numberOfPackets,
+                (runningSum: number, current: OrderProductResponse) => runningSum += current.numberOfPackets,
                 0
             );
     }
@@ -167,7 +175,7 @@ export class OrderFormPage implements AfterViewInit {
     ): number {
         return this.orderProductList
             .reduce(
-                (runningSum, current) => runningSum += current.amount,
+                (runningSum: number, current: OrderProductResponse) => runningSum += current.amount,
                 0
             );
     }
@@ -233,7 +241,7 @@ export class OrderFormPage implements AfterViewInit {
                 mobileNumber: this.mainFormGroupControls.mobileNumber.value,
                 products: this.orderProductList
                     .map(
-                        (value) => {
+                        (value: OrderProductResponse) => {
                             return {
                                 productId: value.product.id,
                                 numberOfPackets: value.numberOfPackets,

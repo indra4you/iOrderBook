@@ -31,6 +31,8 @@ export class FileService {
     private setHandle(
         handle: FileSystemFileHandle | null
     ): void {
+        console.info('File Handle: ', handle);
+
         this._fileHandle = handle;
     }
 
