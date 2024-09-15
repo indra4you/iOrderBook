@@ -194,7 +194,7 @@ export class OrderFormPage implements AfterViewInit {
             } else {
                 const index: number = this.orderProductList
                     .findIndex(
-                        (value) => value.product.id === orderProduct.product.id
+                        (value) => value.product.id === this.addOrEditOrderProduct!.product.id
                     );
                 this.orderProductList[index] = orderProduct;
             }

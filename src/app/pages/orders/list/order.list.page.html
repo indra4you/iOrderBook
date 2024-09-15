@@ -26,7 +26,7 @@
         <h1 class="my-3">
             Orders
 
-            <a routerLink="new" class="text-primary ms-2">
+            <a routerLink="add" class="text-primary ms-2">
                 <i class="bi bi-plus-circle-dotted"></i>
             </a>
         </h1>
@@ -95,7 +95,7 @@
                                 <td class="text-end">{{ order.totalAmount }}</td>
                                 <td class="text-end">
                                     <div class="btn-group">
-                                        <a [routerLink]="['modify', order.id]" class="btn btn-outline-primary">
+                                        <a [routerLink]="[order.id]" class="btn btn-outline-primary">
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                     </div>
@@ -107,7 +107,7 @@
                         <tr>
                             <td colspan="6" class="lead text-center text-muted py-2">
                                 Click
-                                <a routerLink="new" class="text-primary">
+                                <a routerLink="add" class="text-primary">
                                     <i class="bi bi-plus-circle-dotted"></i>
                                 </a>
                                 to add a order

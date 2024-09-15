@@ -25,9 +25,14 @@ export const routes: Routes = [
         title: `Orders - ${APP_NAME}`,
     },
     {
-        path: 'orders/new',
+        path: 'orders/add',
         component: OrderFormPage,
-        title: `New Order - ${APP_NAME}`,
+        title: `Add Order - ${APP_NAME}`,
+    },
+    {
+        path: 'orders/:id',
+        component: OrderFormPage,
+        title: `Edit Order - ${APP_NAME}`,
     },
 
     {
