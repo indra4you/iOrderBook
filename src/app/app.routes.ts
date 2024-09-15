@@ -5,6 +5,7 @@ import {
 import {
     DashboardPage,
     NotFoundPage,
+    OrderFormPage,
     OrderListPage,
     ProductListPage,
 } from './pages';
@@ -22,6 +23,11 @@ export const routes: Routes = [
         path: 'orders',
         component: OrderListPage,
         title: `Orders - ${APP_NAME}`,
+    },
+    {
+        path: 'orders/new',
+        component: OrderFormPage,
+        title: `New Order - ${APP_NAME}`,
     },
 
     {

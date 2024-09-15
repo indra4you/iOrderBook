@@ -73,7 +73,14 @@
             </div>
 
             <button type="submit" (click)="onDeleteClicked()" class="btn btn-danger">
-                <i class="bi bi-hdd"></i>
+                @if (isSubmitted) {
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                }
+                @else {
+                    <i class="bi bi-hdd"></i>
+                }
                 <span class="ms-2">Delete</span>
             </button>
 

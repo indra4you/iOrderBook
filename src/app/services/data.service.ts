@@ -15,6 +15,9 @@ export class DataNotUniqueError extends Error {
 export class DataNotFoundError extends Error {
 };
 
+export class DataReferenceError extends Error {
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -75,7 +78,9 @@ export class DataService extends FileService {
             return false;
         }
 
-        return (this._root?.products?.length ?? 0) > 0 || (this._root?.orders?.length ?? 0) > 0;
+        return (
+            (this._root?.products?.length ?? 0) > 0
+        );
     }
 
     public close(

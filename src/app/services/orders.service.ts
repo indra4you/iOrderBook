@@ -4,23 +4,36 @@ import {
 
 import {
     OrderModel,
+    OrderProductModel,
+    ProductModel,
     RootModel,
 } from './data.models';
 import {
     DataNotFoundError,
     DataNotUniqueError,
+    DataReferenceError,
     DataService,
 } from './data.service';
 
-export type OrderProductRequest = {
-    productId: string,
-    noOfPackets: number,
+export type OrderProductResponse = {
+    product: ProductModel,
+    numberOfPackets: number,
+    amount: number,
+};
+
+export type OrderResponse = {
+    id: number,
+    name: string,
+    mobileNumber: string,
+    products: OrderProductResponse[],
+    totalNumberOfPackets: number,
+    totalAmount: number,
 };
 
 export type OrderRequest = {
     name: string,
-    mobileNumber: number,
-    products: OrderProductRequest[],
+    mobileNumber: string,
+    products: OrderProductModel[],
 };
 
 @Injectable({
@@ -32,49 +45,121 @@ export class OrdersService {
     ) {
     }
 
-    private getNextOrderNumber(
-        existingOrder: OrderModel[],
+    private toOrderProductResponse(
+        orderProduct: OrderProductModel,
+        products: ProductModel[],
+    ): OrderProductResponse {
+        const [product]: ProductModel[] = products.filter(
+            (value: ProductModel) => value.id === orderProduct.productId
+        );
+
+        return {
+            product: product,
+            numberOfPackets: orderProduct.numberOfPackets,
+            amount: orderProduct.numberOfPackets * product.price,
+        };
+    }
+
+    private toOrderProductResponses(
+        orderProducts: OrderProductModel[],
+        products: ProductModel[],
+    ): OrderProductResponse[] {
+        return orderProducts
+            .map(
+                (value: OrderProductModel) => this.toOrderProductResponse(value, products)
+            );
+    }
+
+    private toOrderResponse(
+        order: OrderModel,
+        products: ProductModel[],
+    ): OrderResponse {
+        const orderProducts: OrderProductResponse[] = this.toOrderProductResponses(
+            order.products,
+            products
+        );
+        const totalNumberOfPackets: number = orderProducts
+            .reduce(
+                (runningSum: number, current: OrderProductResponse) => runningSum + current.numberOfPackets,
+                0,
+            );
+        const totalAmount: number = orderProducts
+            .reduce(
+                (runningSum: number, current: OrderProductResponse) => runningSum + (current.numberOfPackets * current.product.price),
+                0,
+            );
+
+        return {
+            id: order.id,
+            name: order.name,
+            mobileNumber: order.mobileNumber,
+            products: orderProducts,
+            totalNumberOfPackets: totalNumberOfPackets,
+            totalAmount: totalAmount,
+        }
+    }
+
+    private toOrderResponses(
+        orders: OrderModel[],
+        products: ProductModel[],
+    ): OrderResponse[] {
+        return orders
+            .map(
+                (value: OrderModel) => this.toOrderResponse(value, products)
+            );
+    }
+
+    private getNextOrderId(
+        orders: OrderModel[],
     ): number {
         return 1 + Math.max(
-            ...existingOrder.map((value) => value.id)
+            ...orders.map((value) => value.id)
         );
     }
 
     private toSummarizeOrderProducts(
-        orderProductRequest: OrderProductRequest[],
-    ): OrderProductRequest[] {
+        orderProductModels: OrderProductModel[],
+    ): OrderProductModel[] {
         return Object.values(
-            orderProductRequest.reduce(
-                (previous, current) => {
-                    if (previous[current.productId]) {
-                        previous[current.productId].noOfPackets += current.noOfPackets;
+            orderProductModels.reduce(
+                (runningItem, current) => {
+                    if (runningItem[current.productId]) {
+                        runningItem[current.productId].numberOfPackets += current.numberOfPackets;
                     } else {
-                        previous[current.productId] = { ...current };
+                        runningItem[current.productId] = { ...current };
                     }
 
-                    return previous;
+                    return runningItem;
                 },
-                { } as { [key: string]: OrderProductRequest },
+                { } as { [key: string]: OrderProductModel },
             )
         )
     }
 
     public async getAll(
-    ): Promise<OrderModel[]> {
-        const rootModel: RootModel = await this._dataService.getRoot();
+    ): Promise<OrderResponse[]> {
+        const root: RootModel = await this._dataService.getRoot();
+        const orders: OrderModel[] = root.orders ?? [];
 
-        return rootModel.orders ?? [];
+        return this.toOrderResponses(
+            orders,
+            root.products ?? []
+        );
     }
 
     public async getById(
         id: number,
-    ): Promise<OrderModel> {
-        const orders: OrderModel[] = await this.getAll();
+    ): Promise<OrderResponse> {
+        const root: RootModel = await this._dataService.getRoot();
+        const orders: OrderModel[] = root.orders ?? [];
         const [order]: OrderModel[] = orders.filter(
             (value) => value.id === id
         );
 
-        return order;
+        return this.toOrderResponse(
+            order,
+            root.products ?? [],
+        );
     }
     
     public async add(
@@ -88,12 +173,28 @@ export class OrdersService {
         );
         if (filteredOrders.length > 0) {
             throw new DataNotUniqueError(
-                `Order for '${request.name}' already exists`,
+                `Order with Name "${request.name}" already exists`,
             );
         }
 
+        const products: ProductModel[] = root.products ?? [];
+        request.products
+            .forEach(
+                (product) => {
+                    const found: boolean = products
+                        .some(
+                            (value) => value.id === product.productId
+                        );
+                    if (!found) {
+                        throw new DataReferenceError(
+                            `Selected Product with Id "${product.productId}" not found in the product list`,
+                        );
+                    }
+                }
+            );
+
         const order: OrderModel = {
-            id: this.getNextOrderNumber(root.orders),
+            id: this.getNextOrderId(root.orders),
             name: request.name,
             mobileNumber: request.mobileNumber,
             products: this.toSummarizeOrderProducts(request.products),
@@ -115,7 +216,7 @@ export class OrdersService {
         );
         if (index === -1) {
             throw new DataNotFoundError(
-                `Order with Id: '${id}' not found`,
+                `Order with Id "${id}" not found`,
             );
         }
 
@@ -124,9 +225,25 @@ export class OrdersService {
         );
         if (orders.length > 0) {
             throw new DataNotUniqueError(
-                `Order for '${request.name}' already exists`,
+                `Order with Name "${request.name}" already exists`,
             );
         }
+
+        const products: ProductModel[] = root.products ?? [];
+        request.products
+            .forEach(
+                (product) => {
+                    const hasProduct: boolean = products
+                        .some(
+                            (value) => value.id === product.productId
+                        );
+                    if (!hasProduct) {
+                        throw new DataReferenceError(
+                            `Selected Product with Id "${product.productId}" not found in the product list`,
+                        );
+                    }
+                }
+            );
 
         const order: OrderModel = {
             id: id,
@@ -150,7 +267,7 @@ export class OrdersService {
         );
         if (index === -1) {
             throw new DataNotFoundError(
-                `Order with Id: '${id}' not found`,
+                `Order with Id '${id}' not found`,
             );
         }
 

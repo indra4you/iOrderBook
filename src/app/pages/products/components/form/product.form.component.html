@@ -42,91 +42,100 @@
             }
 
             <div [formGroup]="mainFormGroup">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                <fieldset>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
 
-                    <input type="text" formControlName="name" id="name" #focusOn
-                        class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.name.errors, 'is-valid': mainFormGroupControls.name.valid }">
+                        <input type="text" formControlName="name" id="name" #focusOn
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.name.errors, 'is-valid': mainFormGroupControls.name.valid }">
 
-                    @if (mainFormGroupControls.name.errors) {
-                        <div class="invalid-feedback">
-                            @if (mainFormGroupControls.name.errors.required) {
-                                <div>Name is required</div>
-                            }
-                            @else if (mainFormGroupControls.name.errors.minLength) {
-                                <div>Name at least should be 3 characters</div>
-                            }
-                        </div>
-                    }
-                </div>
-
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-
-                    <div class="input-group has-validation">
-                        <input type="number" formControlName="price" id="price"
-                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.price.errors, 'is-valid': mainFormGroupControls.price.valid }"
-                            inputmode="numeric" min="1" step="10">
-                        
-                        <span class="input-group-text">₹</span>
-                        
-                        @if (mainFormGroupControls.price.errors) {
+                        @if (mainFormGroupControls.name.errors) {
                             <div class="invalid-feedback">
-                                @if (mainFormGroupControls.price.errors.required) {
-                                    <div>Price is required</div>
+                                @if (mainFormGroupControls.name.errors.required) {
+                                    <div>Name is required</div>
                                 }
-                                @else if (mainFormGroupControls.price.errors.min || mainFormGroupControls.price.errors.max) {
-                                    <div>Price should be between 10 and 2000</div>
+                                @else if (mainFormGroupControls.name.errors.minlength) {
+                                    <div>Name at least should be 3 characters</div>
                                 }
                             </div>
                         }
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="quantity" class="form-label">Quantity</label>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
 
-                    <div class="input-group has-validation">
-                        <input type="number" formControlName="quantity" id="quantity"
-                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.quantity.errors, 'is-valid': mainFormGroupControls.quantity.valid }"
-                            inputmode="numeric" min="10" step="10">
+                        <div class="input-group has-validation">
+                            <input type="number" formControlName="price" id="price"
+                                class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.price.errors, 'is-valid': mainFormGroupControls.price.valid }"
+                                inputmode="numeric" min="1">
+                            
+                            <span class="input-group-text">₹</span>
+                            
+                            @if (mainFormGroupControls.price.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.price.errors.required) {
+                                        <div>Price is required</div>
+                                    }
+                                    @else if (mainFormGroupControls.price.errors.min || mainFormGroupControls.price.errors.max) {
+                                        <div>Price should be between 10 and 2000</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+
+                        <div class="input-group has-validation">
+                            <input type="number" formControlName="quantity" id="quantity"
+                                class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.quantity.errors, 'is-valid': mainFormGroupControls.quantity.valid }"
+                                inputmode="numeric" min="10">
+                            
+                            <span class="input-group-text">grams</span>
+                            
+                            @if (mainFormGroupControls.quantity.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.quantity.errors.required) {
+                                        <div>Quantity is required</div>
+                                    }
+                                    @else if (mainFormGroupControls.quantity.errors.min || mainFormGroupControls.quantity.errors.max) {
+                                        <div>Quantity should be between 10 and 1000</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sort" class="form-label">Order</label>
+
+                        <input type="number" formControlName="sort" id="sort"
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.sort.errors, 'is-valid': mainFormGroupControls.sort.valid }"
+                            inputmode="numeric" min="100" step="10">
                         
-                        <span class="input-group-text">grams</span>
-                        
-                        @if (mainFormGroupControls.quantity.errors) {
+                        @if (mainFormGroupControls.sort.errors) {
                             <div class="invalid-feedback">
-                                @if (mainFormGroupControls.quantity.errors.required) {
-                                    <div>Quantity is required</div>
+                                @if (mainFormGroupControls.sort.errors.required) {
+                                    <div>Sort is required</div>
                                 }
-                                @else if (mainFormGroupControls.quantity.errors.min || mainFormGroupControls.quantity.errors.max) {
-                                    <div>Quantity should be between 10 and 1000</div>
+                                @else if (mainFormGroupControls.sort.errors.min || mainFormGroupControls.sort.errors.max) {
+                                    <div>Sort should be between 100 and 2000</div>
                                 }
                             </div>
                         }
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="sort" class="form-label">Order</label>
-
-                    <input type="number" formControlName="sort" id="sort"
-                        class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.sort.errors, 'is-valid': mainFormGroupControls.sort.valid }"
-                        inputmode="numeric" min="100" step="10">
-                    
-                    @if (mainFormGroupControls.sort.errors) {
-                        <div class="invalid-feedback">
-                            @if (mainFormGroupControls.sort.errors.required) {
-                                <div>Sort is required</div>
-                            }
-                            @else if (mainFormGroupControls.sort.errors.min || mainFormGroupControls.sort.errors.max) {
-                                <div>Sort should be between 100 and 2000</div>
-                            }
-                        </div>
-                    }
-                </div>
+                </fieldset>
 
                 <button type="submit" (click)="onSubmitClicked()" [disabled]="mainFormGroup.invalid" class="btn btn-primary">
-                    <i class="bi bi-hdd"></i>
+                    @if (isSubmitted) {
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    }
+                    @else {
+                        <i class="bi bi-hdd"></i>
+                    }
                     <span class="ms-2">Save</span>
                 </button>
 

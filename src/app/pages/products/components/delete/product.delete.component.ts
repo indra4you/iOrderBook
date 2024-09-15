@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {
-    ProductModel,
+    ProductResponse,
     ProductsService,
 } from '../../../../services';
 
@@ -27,7 +27,8 @@ export class ProductDeleteComponent implements OnInit {
     
     public errorMessage: string = '';
     public isLoading: boolean = true;
-    public product: ProductModel | null = null;
+    public product: ProductResponse | null = null;
+    public isSubmitted: boolean = false;
 
     constructor(
         private readonly _productsService: ProductsService,
@@ -65,6 +66,8 @@ export class ProductDeleteComponent implements OnInit {
 
     public async onDeleteClicked(
     ): Promise<void> {
+        this.isSubmitted = true;
+
         try {
             await this._productsService.delete(this.id!);
 
@@ -72,6 +75,7 @@ export class ProductDeleteComponent implements OnInit {
         } catch (error) {
             const err: Error = error as Error;
             this.errorMessage = err.message;
+            this.isSubmitted = false;
         }
     }
 };

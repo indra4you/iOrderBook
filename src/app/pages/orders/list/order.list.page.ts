@@ -7,8 +7,10 @@ import {
 } from '@angular/router';
 
 import {
-    OrderModel,
+    OrderResponse,
     OrdersService,
+    ProductModel,
+    ProductsService,
 } from '../../../services';
 
 @Component({
@@ -21,14 +23,13 @@ import {
 export class OrderListPage implements OnInit {
     public readonly _noOfFields: number[] = [...Array(3).keys()];
 
+    public hasProducts: boolean = true;
     public isLoading: boolean = true;
-    public orders: OrderModel[] = [];
-    public showOrderForm: boolean = false;
-    public showOrderDelete: boolean = false;
-    public orderEditOrDeleteId: number = 0;
+    public orders: OrderResponse[] = [];
 
     constructor(
         private readonly _ordersService: OrdersService,
+        private readonly _productsService: ProductsService,
     ) {
     }
 
@@ -45,6 +46,10 @@ export class OrderListPage implements OnInit {
         this.isLoading = true;
 
         this.orders = await this._ordersService.getAll();
+        if (!this.hasOrders) {
+            const products: ProductModel[] = await this._productsService.getAll();
+            this.hasProducts = products.length > 0;
+        }
         
         this.isLoading = false;
     }
@@ -52,50 +57,5 @@ export class OrderListPage implements OnInit {
     public get hasOrders(
     ): boolean {
         return this.orders.length > 0;
-    }
-
-    public onAddOrderClicked(
-    ): boolean {
-        this.showOrderForm = true;
-
-        return false;
-    }
-
-    public onEditOrderClicked(
-        index: number,
-    ): void {
-        const order: OrderModel = this.orders[index];
-
-        this.orderEditOrDeleteId = order.id;
-        this.showOrderForm = true;
-    }
-
-    public onOrderFormClose(
-    ): void {
-        this.orderEditOrDeleteId = 0;
-        this.showOrderForm = false;
-
-        this.load();
-    }
-
-    public onDeleteOrderClicked(
-        index: number,
-    ): void {
-        const order: OrderModel = this.orders[index];
-
-        this.orderEditOrDeleteId = order.id;
-        this.showOrderDelete = true;
-    }
-
-    public onOrderDeleteClose(
-        deleted: boolean,
-    ): void {
-        this.showOrderDelete = false;
-
-        if (deleted) {
-            this.orderEditOrDeleteId = 0;
-
-            this.load();
-        }
     }
 };

@@ -10,8 +10,13 @@ import {
 import {
     DataNotFoundError,
     DataNotUniqueError,
+    DataReferenceError,
     DataService,
 } from './data.service';
+
+export type ProductResponse = ProductModel & {
+    hasOrders: boolean,
+};
 
 export type ProductRequest = {
     name: string,
@@ -29,42 +34,61 @@ export class ProductsService {
     ) {
     }
 
-    private async hasOrdersById(
-        id: string,
-    ): Promise<boolean> {
-        const rootModel: RootModel = await this._dataService.getRoot();
-        const orders: OrderModel[] = rootModel.orders ?? [];
+    private toProductResponse(
+        product: ProductModel,
+        orders: OrderModel[],
+    ): ProductResponse {
+        const hasOrders: boolean = orders
+            .some(
+                (order) => order.products.some(
+                    (orderProduct) => orderProduct.productId === product.id
+                )
+            );
 
-        return orders.some(
-            order => order.products.some(
-                product => product.productId === id
-            )
-        );
+        return {
+            id: product.id,
+            name: product.name,
+            quantity: product.quantity,
+            price: product.price,
+            sort: product.sort,
+            hasOrders: hasOrders,
+        }
+    }
+
+    private toProductResponses(
+        products: ProductModel[],
+        orders: OrderModel[],
+    ): ProductResponse[] {
+        return products
+            .map(
+                (value) => this.toProductResponse(value, orders)
+            );
     }
 
     public async getAll(
-    ): Promise<ProductModel[]> {
-        const rootModel: RootModel = await this._dataService.getRoot();
-        const products: ProductModel[] = rootModel.products ?? [];
+    ): Promise<ProductResponse[]> {
+        const root: RootModel = await this._dataService.getRoot();
+        const products: ProductModel[] = root.products ?? [];
 
-        await products.forEach(
-            async (value) => value.hasOrders = await this.hasOrdersById(value.id)
-        )
-
-        return products;
+        return this.toProductResponses(
+            products,
+            root.orders ?? []
+        );
     }
 
     public async getById(
         id: string,
-    ): Promise<ProductModel> {
-        const products: ProductModel[] = await this.getAll();
+    ): Promise<ProductResponse> {
+        const root: RootModel = await this._dataService.getRoot();
+        const products: ProductModel[] = root.products ?? [];
         const [product]: ProductModel[] = products.filter(
             (value) => value.id === id
         );
 
-        product.hasOrders = await this.hasOrdersById(id);
-
-        return product;
+        return this.toProductResponse(
+            product,
+            root.orders ?? [],
+        );
     }
     
     public async add(
@@ -78,7 +102,7 @@ export class ProductsService {
         );
         if (filteredProducts.length > 0) {
             throw new DataNotUniqueError(
-                `Product with Name: '${request.name}' already exists`,
+                `Product with Name "${request.name}" already exists`,
             );
         }
 
@@ -88,7 +112,6 @@ export class ProductsService {
             quantity: request.quantity,
             price: request.price,
             sort: request.sort,
-            hasOrders: false,
         };
 
         root.products.push(product);
@@ -107,7 +130,7 @@ export class ProductsService {
         );
         if (index === -1) {
             throw new DataNotFoundError(
-                `Product with Id: '${id}' not found`,
+                `Product with Id "${id}" not found`,
             );
         }
 
@@ -116,7 +139,7 @@ export class ProductsService {
         );
         if (products.length > 0) {
             throw new DataNotUniqueError(
-                `Product with Name: '${request.name}' already exists`,
+                `Product with Name "${request.name}" already exists`,
             );
         }
 
@@ -126,7 +149,6 @@ export class ProductsService {
             quantity: request.quantity,
             price: request.price,
             sort: request.sort,
-            hasOrders: false,
         };
 
         root.products[index] = product;
@@ -144,7 +166,19 @@ export class ProductsService {
         );
         if (index === -1) {
             throw new DataNotFoundError(
-                `Product with Id: '${id}' not found`,
+                `Product with Id '${id}' not found`,
+            );
+        }
+
+        const hasOrders: boolean = (root.orders ?? [])
+            .some(
+                (order) => order.products.some(
+                    (orderProduct) => orderProduct.productId === id
+                )
+            );
+        if (hasOrders) {
+            throw new DataReferenceError(
+                `Product with Id '${id}' is being used in "Orders"`,
             );
         }
 

@@ -1,100 +1,121 @@
 <section class="container">
-    <h1 class="my-3">
-        Orders
+    @if (!hasProducts) {
+        <h1 class="my-3">
+            Orders
+        </h1>
 
-        <a href="#" (click)="onAddOrderClicked()" class="text-primary ms-2">
-            <i class="bi bi-plus-circle-dotted"></i>
-        </a>
-    </h1>
+        <div class="row">
+            <div class="col-md-4 col-sm-1"></div>
 
-    <div class="table-responsive border rounded mb-3">
-        <table class="table table-hover table-striped align-middle mb-0">
-            <colgroup>
-                <col width="3%">
-                <col>
-                <col>
-                <col>
-                <col>
-                <col width="3%">
-            </colgroup>
+            <div class="col-md-4 col-10">
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">
+                        <i class="bi bi-patch-exclamation me-2"></i> No Products
+                    </h4>
 
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <th scope="col" class="text-end">Mobile Number</th>
-                    <th scope="col" class="text-end">No of Products</th>
-                    <th scope="col" class="text-end">Total Amount</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
+                    <hr />
 
-            <tbody>
-                @if (isLoading) {
-                    @for (item of _noOfFields; track $index) {
-                        <tr>
-                            <th scope="row">
-                                <div class="placeholder-glow">
-                                    <div class="col-12 placeholder placeholder-sm"></div>
-                                </div>
-                            </th>
-                            <td>
-                                <div class="placeholder-glow">
-                                    <div class="col-12 placeholder placeholder-sm"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="placeholder-glow">
-                                    <div class="col-12 placeholder placeholder-sm"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="placeholder-glow">
-                                    <div class="col-12 placeholder placeholder-sm"></div>
-                                </div>
-                            </td>
-                            <td colspan="2">
-                                <div class="placeholder-glow">
-                                    <div class="col-12 placeholder placeholder-sm"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                @else if (hasOrders) {
-                    @for (order of orders; track $index) {
-                        <tr>
-                            <th scope="row" class="text-end">{{ $index + 1 }}.</th>
-                            <td>{{ order.name }}</td>
-                            <td class="text-end">{{ order.mobileNumber }}</td>
-                            <td class="text-end">{{ order.products.length }}</td>
-                            <td class="text-end"></td>
-                            <td class="text-end">
-                                <div class="btn-group">
-                                    <button type="button" (click)="onEditOrderClicked($index)" class="btn btn-outline-primary">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    
-                                    <button type="button" (click)="onDeleteOrderClicked($index)" class="btn btn-outline-danger">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                @else {
+                    <p class="mb-0">Create few products by clicking <a routerLink="/products" class="alert-link">here</a>.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-1"></div>
+        </div>
+    }
+    @else {
+        <h1 class="my-3">
+            Orders
+
+            <a routerLink="new" class="text-primary ms-2">
+                <i class="bi bi-plus-circle-dotted"></i>
+            </a>
+        </h1>
+
+        <div class="table-responsive border rounded mb-3">
+            <table class="table table-hover table-striped align-middle mb-0">
+                <colgroup>
+                    <col width="3%">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col width="3%">
+                </colgroup>
+
+                <thead>
                     <tr>
-                        <td colspan="6" class="lead text-center text-muted py-2">
-                            Click
-                            <a href="#" (click)="onAddOrderClicked()" class="text-primary">
-                                <i class="bi bi-plus-circle-dotted"></i>
-                            </a>
-                            to add a order
-                        </td>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col" class="text-end">Mobile</th>
+                        <th scope="col" class="text-end">Total Packets</th>
+                        <th scope="col" class="text-end">Total Amount</th>
+                        <th scope="col"></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+
+                <tbody>
+                    @if (isLoading) {
+                        @for (item of _noOfFields; track $index) {
+                            <tr>
+                                <th scope="row">
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="placeholder-glow">
+                                        <div class="col-12 placeholder placeholder-sm"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @else if (hasOrders) {
+                        @for (order of orders; track $index) {
+                            <tr>
+                                <th scope="row" class="text-end">{{ $index + 1 }}.</th>
+                                <td>{{ order.name }}</td>
+                                <td class="text-end">{{ order.mobileNumber }}</td>
+                                <td class="text-end">{{ order.totalNumberOfPackets }}</td>
+                                <td class="text-end">{{ order.totalAmount }}</td>
+                                <td class="text-end">
+                                    <div class="btn-group">
+                                        <a [routerLink]="['modify', order.id]" class="btn btn-outline-primary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @else {
+                        <tr>
+                            <td colspan="6" class="lead text-center text-muted py-2">
+                                Click
+                                <a routerLink="new" class="text-primary">
+                                    <i class="bi bi-plus-circle-dotted"></i>
+                                </a>
+                                to add a order
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </section>

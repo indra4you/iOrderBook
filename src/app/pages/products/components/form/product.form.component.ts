@@ -20,7 +20,7 @@ import {
 } from '@angular/forms';
 
 import {
-    ProductModel,
+    ProductResponse,
     ProductRequest,
     ProductsService,
 } from '../../../../services';
@@ -41,7 +41,7 @@ export class ProductFormComponent implements AfterViewInit {
     public readonly _noOfFields: number[] = [...Array(3).keys()];
 
     @Input('id')
-    public id: string = '';
+    public id: string | null = null;
 
     @ViewChild('focusOn')
     public focusOn: ElementRef<HTMLInputElement> | undefined;
@@ -49,9 +49,10 @@ export class ProductFormComponent implements AfterViewInit {
     @Output('onClose')
     public onClose: EventEmitter<void> = new EventEmitter();
     
-    public errorMessage: string = '';
-    public mainFormGroup: FormGroup;
     public isLoading: boolean = true;
+    public mainFormGroup: FormGroup;
+    public errorMessage: string = '';
+    public isSubmitted: boolean = false;
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -74,7 +75,7 @@ export class ProductFormComponent implements AfterViewInit {
 
     private async setupFormGroup(
     ): Promise<void> {
-        const product = await this.load();
+        const product: ProductResponse = await this.load();
         const productPrice: string = product.id === 'NEW' ? '' : product.price.toString();
 
         this.mainFormGroup = this._formBuilder.group({
@@ -95,9 +96,9 @@ export class ProductFormComponent implements AfterViewInit {
     }
 
     private async load(
-    ): Promise<ProductModel> {
+    ): Promise<ProductResponse> {
         if (this.hasValidId) {
-            const product: ProductModel = await this._productsService.getById(this.id!);
+            const product: ProductResponse = await this._productsService.getById(this.id!);
 
             return product;
         }
@@ -109,7 +110,7 @@ export class ProductFormComponent implements AfterViewInit {
             price: -1,
             sort: 100,
             hasOrders: false,
-        }
+        };
     }
 
     public get hasValidId(
@@ -134,6 +135,8 @@ export class ProductFormComponent implements AfterViewInit {
 
     public async onSubmitClicked(
     ): Promise<void> {
+        this.isSubmitted = true;
+
         try {
             const request: ProductRequest = {
                 name: toTrim(this.mainFormGroupControls.name.value),
@@ -152,6 +155,7 @@ export class ProductFormComponent implements AfterViewInit {
         } catch (error) {
             const err: Error = error as Error;
             this.errorMessage = err.message;
+            this.isSubmitted = false;
         }
     }
 };

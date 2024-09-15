@@ -4,18 +4,17 @@ export type ProductModel = {
     quantity: number,
     price: number,
     sort: number,
-    hasOrders: boolean,
 };
 
 export type OrderProductModel = {
     productId: string,
-    noOfPackets: number,
-};
+    numberOfPackets: number,
+}
 
 export type OrderModel = {
     id: number,
     name: string,
-    mobileNumber: number,
+    mobileNumber: string,
     products: OrderProductModel[],
 };
 

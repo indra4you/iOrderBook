@@ -2,12 +2,9 @@ import {
     Component,
     OnInit,
 } from '@angular/core';
-import {
-    RouterLink,
-} from '@angular/router';
 
 import {
-    ProductModel,
+    ProductResponse,
     ProductsService,
 } from '../../../services';
 import {
@@ -18,7 +15,6 @@ import {
 @Component({
     standalone: true,
     imports: [
-        RouterLink,
         ProductFormComponent,
         ProductDeleteComponent,
     ],
@@ -28,7 +24,7 @@ export class ProductListPage implements OnInit {
     public readonly _noOfFields: number[] = [...Array(3).keys()];
 
     public isLoading: boolean = true;
-    public products: ProductModel[] = [];
+    public products: ProductResponse[] = [];
     public showProductForm: boolean = false;
     public showProductDelete: boolean = false;
     public productEditOrDeleteId: string = '';
@@ -70,7 +66,7 @@ export class ProductListPage implements OnInit {
     public onEditProductClicked(
         index: number,
     ): void {
-        const product: ProductModel = this.products[index];
+        const product: ProductResponse = this.products[index];
 
         this.productEditOrDeleteId = product.id;
         this.showProductForm = true;
@@ -84,17 +80,10 @@ export class ProductListPage implements OnInit {
         this.load();
     }
 
-    public canDelete(
-        index: number,
-    ): boolean {
-        // TODO: Check any order exists, if so do not allow to Delete
-        return true;
-    }
-
     public onDeleteProductClicked(
         index: number,
     ): void {
-        const product: ProductModel = this.products[index];
+        const product: ProductResponse = this.products[index];
 
         this.productEditOrDeleteId = product.id;
         this.showProductDelete = true;
