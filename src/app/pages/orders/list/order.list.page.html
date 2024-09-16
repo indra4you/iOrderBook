@@ -26,7 +26,7 @@
         <h1 class="my-3">
             Orders
 
-            <a routerLink="add" class="text-primary ms-2">
+            <a routerLink="add" class="text-primary ms-2" title="Add Order">
                 <i class="bi bi-plus-circle-dotted"></i>
             </a>
         </h1>
@@ -107,16 +107,21 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="btn-group">
+                                        
+                                        <a [routerLink]="[order.id, 'view']" class="btn btn-outline-secondary" title="View Order">
+                                            <i class="bi bi-binoculars"></i>
+                                        </a>
+                                        
                                         @if (canEdit(order.status)) {
-                                            <a [routerLink]="[order.id]" class="btn btn-outline-primary">
+                                            <a [routerLink]="[order.id]" class="btn btn-outline-primary" title="Edit Order">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             
-                                            <a [routerLink]="[order.id, 'delete']" class="btn btn-outline-danger">
+                                            <a [routerLink]="[order.id, 'delete']" class="btn btn-outline-danger" title="Delete Order">
                                                 <i class="bi bi-trash3"></i>
                                             </a>
                                         }
-                                </div>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -125,7 +130,7 @@
                         <tr>
                             <td colspan="6" class="lead text-center text-muted py-2">
                                 Click
-                                <a routerLink="add" class="text-primary">
+                                <a routerLink="add" class="text-primary" title="Add Order">
                                     <i class="bi bi-plus-circle-dotted"></i>
                                 </a>
                                 to add a order

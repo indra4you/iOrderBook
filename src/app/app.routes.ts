@@ -8,6 +8,7 @@ import {
     OrderDeletePage,
     OrderFormPage,
     OrderListPage,
+    OrderViewPage,
     ProductListPage,
 } from './pages';
 
@@ -39,6 +40,11 @@ export const routes: Routes = [
         path: 'orders/:id/delete',
         component: OrderDeletePage,
         title: `Edit Order - ${APP_NAME}`,
+    },
+    {
+        path: 'orders/:id/view',
+        component: OrderViewPage,
+        title: `View Order - ${APP_NAME}`,
     },
 
     {

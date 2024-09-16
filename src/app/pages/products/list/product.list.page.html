@@ -2,7 +2,7 @@
     <h1 class="my-3">
         Products
 
-        <a href="#" (click)="onAddProductClicked()" class="text-primary ms-2">
+        <a href="#" (click)="onAddProductClicked()" class="text-primary ms-2" title="Add Product">
             <i class="bi bi-plus-circle-dotted"></i>
         </a>
     </h1>
@@ -71,12 +71,12 @@
                             <td class="text-end">{{ product.sort }}</td>
                             <td class="text-end">
                                 <div class="btn-group">
-                                    <button type="button" (click)="onEditProductClicked($index)" class="btn btn-outline-primary">
+                                    <button type="button" (click)="onEditProductClicked($index)" class="btn btn-outline-primary" title="Edit Product">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     
                                     @if (!product.hasOrders) {
-                                        <button type="button" (click)="onDeleteProductClicked($index)" class="btn btn-outline-danger">
+                                        <button type="button" (click)="onDeleteProductClicked($index)" class="btn btn-outline-danger" title="Delete Product">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     }
@@ -89,7 +89,7 @@
                     <tr>
                         <td colspan="6" class="lead text-center text-muted py-2">
                             Click
-                            <a href="#" (click)="onAddProductClicked()" class="text-primary">
+                            <a href="#" (click)="onAddProductClicked()" class="text-primary" title="Add Product">
                                 <i class="bi bi-plus-circle-dotted"></i>
                             </a>
                             to add a product

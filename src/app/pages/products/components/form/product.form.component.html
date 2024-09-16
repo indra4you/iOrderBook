@@ -127,7 +127,7 @@
                     </div>
                 </fieldset>
 
-                <button type="submit" (click)="onSubmitClicked()" [disabled]="mainFormGroup.invalid" class="btn btn-primary">
+                <button type="submit" (click)="onSubmitClicked()" [disabled]="mainFormGroup.invalid || isSubmitted" class="btn btn-primary" title="Save Product">
                     @if (isSubmitted) {
                         <div class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -139,7 +139,7 @@
                     <span class="ms-2">Save</span>
                 </button>
 
-                <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2">
+                <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2" title="Go back to Products">
                     <i class="bi bi-x-lg"></i>
                     <span class="ms-2">Cancel</span>
                 </button>

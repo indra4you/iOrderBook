@@ -35,16 +35,14 @@
 
             <ul class="navbar-nav d-flex">
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link fs-5 active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <abbr title="iData File">
-                            <span class="ms-2">{{ fileName }}</span>
-                        </abbr>
+                    <a href="#" class="nav-link fs-5 active dropdown-toggle" role="button" title="iData File" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="ms-2">{{ fileName }}</span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end">
                         @if (!hasFileHandle) {
                             <li>
-                                <button type="button" (click)="saveClicked()" class="dropdown-item fs-5">
+                                <button type="button" (click)="saveClicked()" class="dropdown-item fs-5" title="Save data to a new file">
                                     <i class="bi bi-download"></i>
                                     <span class="ms-2">Save to File</span>
                                 </button>
@@ -52,7 +50,7 @@
                         }
 
                         <li>
-                            <button type="button" (click)="openClicked()" class="dropdown-item fs-5">
+                            <button type="button" (click)="openClicked()" class="dropdown-item fs-5" title="Open existing data file">
                                 <i class="bi bi-upload"></i>
                                 <span class="ms-2">Open File</span>
                             </button>
@@ -64,7 +62,7 @@
                             </li>
                             
                             <li>
-                                <button type="button" (click)="closeClicked()" class="dropdown-item fs-5">
+                                <button type="button" (click)="closeClicked()" class="dropdown-item fs-5" title="Close currently open file">
                                     <i class="bi bi-x-octagon"></i>
                                     <span class="ms-2">Close File</span>
                                 </button>

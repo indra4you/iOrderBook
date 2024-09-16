@@ -72,7 +72,7 @@
                 <span class="form-control-plaintext">{{ product!.sort }} ₹</span>
             </div>
 
-            <button type="submit" (click)="onDeleteClicked()" class="btn btn-danger">
+            <button type="submit" (click)="onDeleteClicked()" [disabled]="isSubmitted" class="btn btn-danger" title="Delete Product">
                 @if (isSubmitted) {
                     <div class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -84,7 +84,7 @@
                 <span class="ms-2">Delete</span>
             </button>
 
-            <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2">
+            <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2" title="Go back to Products">
                 <i class="bi bi-x-lg"></i>
                 <span class="ms-2">Cancel</span>
             </button>
