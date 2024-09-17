@@ -23,7 +23,7 @@
                         "polyfills": [
                             "zone.js"
                         ],
-                        "tsConfig": "tsConfig.app.json",
+                        "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
                             {
