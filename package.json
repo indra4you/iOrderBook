@@ -5,8 +5,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build",
-        "build-gh-pages": "ng build --base-href https://indra4you.github.io/iOrderBook/"
+        "prepublish": "ng build",
+        "publish": "gh-pages --dist dist/browser"
     },
     "dependencies": {
         "@angular/animations": "^18.2.3",
@@ -28,6 +28,7 @@
         "@angular/compiler-cli": "^18.2.3",
         "@types/node": "^22.5.4",
         "@types/wicg-file-system-access": "^2023.10.5",
+        "gh-pages": "^6.1.1",
         "typescript": "^5.5.4"
     }
 }
