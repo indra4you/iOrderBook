@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "prepublish": "ng build",
+        "build": "ng build",
         "publish": "gh-pages --dist dist/browser"
     },
     "dependencies": {

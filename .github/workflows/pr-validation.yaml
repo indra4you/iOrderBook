@@ -24,4 +24,4 @@ jobs:
       run: npm ci
     
     - name: Build
-      run: npm run prepublish
+      run: npm run build
