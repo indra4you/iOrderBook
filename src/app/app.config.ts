@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {
     provideRouter,
+    withRouterConfig,
 } from '@angular/router';
 
 import {
@@ -18,7 +19,10 @@ export const appConfig: ApplicationConfig = {
             }
         ),
         provideRouter(
-            routes
+            routes,
+            withRouterConfig({
+                onSameUrlNavigation: 'reload',
+            })
         ),
     ],
 };
