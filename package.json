@@ -4,7 +4,9 @@
     "private": true,
     "scripts": {
         "ng": "ng",
-        "start": "ng serve"
+        "start": "ng serve",
+        "build": "ng build",
+        "build-gh-pages": "ng build --base-href https://indra4you.github.io/iOrderBook/"
     },
     "dependencies": {
         "@angular/animations": "^18.2.3",
