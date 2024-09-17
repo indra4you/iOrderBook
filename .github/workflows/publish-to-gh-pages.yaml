@@ -22,5 +22,8 @@ jobs:
     - name: Restoring Dependencies
       run: npm ci
     
+    - name: Build
+      run: npm run build
+    
     - name: Publish
       run: npm run publish
