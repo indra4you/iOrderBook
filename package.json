@@ -5,7 +5,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build"
+        "build": "ng build",
+        "publish": "ng build --output-path ./publish"
     },
     "dependencies": {
         "@angular/animations": "^18.2.3",
