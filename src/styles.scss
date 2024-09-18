@@ -1,16 +1,12 @@
 @import "../node_modules/bootstrap/scss/functions";
 
-$primary: #084298;
+$primary: #6f42c1;
 
 @import "../node_modules/bootstrap/scss/variables";
 
 $body-bg: $gray-100;
-$enable-rounded: true;
 $enable-shadows: true;
 $enable-gradients: true;
-$enable-transitions: true;
-$enable-reduced-motion: true;
-$enable-smooth-scroll: true;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
