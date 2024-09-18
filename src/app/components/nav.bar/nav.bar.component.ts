@@ -51,8 +51,13 @@ export class NavBarComponent {
 
         const result: boolean = await this._dataService.open();
         if (result) {
-            this._router.navigate(
-                ['/'],
+            this._router.navigateByUrl('/dummy',
+                {
+                    skipLocationChange: true,
+                }
+            )
+            .then(
+                () => this._router.navigate(['/'])
             );
         }
     }
@@ -70,8 +75,13 @@ export class NavBarComponent {
 
         this._dataService.close();
 
-        this._router.navigate(
-            ['/'],
+        this._router.navigateByUrl('/dummy',
+            {
+                skipLocationChange: true,
+            }
+        )
+        .then(
+            () => this._router.navigate(['/'])
         );
     }
 };

@@ -16,7 +16,7 @@ const APP_NAME: string = 'iOrder Book';
 
 export const routes: Routes = [
     {
-        path: 'dashboard',
+        path: '',
         component: DashboardPage,
         title: `Dashboard - ${APP_NAME}`,
     },
@@ -53,11 +53,6 @@ export const routes: Routes = [
         title: `Products - ${APP_NAME}`,
     },
 
-    {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
-    },
     {
         path: '**',
         component: NotFoundPage,
