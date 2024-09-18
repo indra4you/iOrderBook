@@ -5,6 +5,9 @@ on:
     tags:
       - publish/v*.*.*
 
+permissions:
+  contents: write
+
 jobs:
   idatabook-publish-to-github-pages-job:
     name: iOrderBook - Publish to Github Pages
