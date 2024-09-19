@@ -115,9 +115,13 @@ export class OrdersService {
     private getNextOrderId(
         orders: OrderModel[],
     ): number {
-        return 1 + Math.max(
-            ...orders.map((value: OrderModel) => value.id)
-        );
+        if (orders.length > 0) {
+            return 1 + Math.max(
+                ...orders.map((value: OrderModel) => value.id)
+            );
+        }
+
+        return 1;
     }
 
     private toSummarizeOrderProducts(
