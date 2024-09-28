@@ -1,33 +1,32 @@
 {
     "name": "iorder-book",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "private": true,
     "scripts": {
-        "ng": "ng",
-        "start": "ng serve",
-        "build": "ng build",
-        "publish": "ng build --output-path ./publish --base-href https://indra4you.github.io/iOrderBook/"
+        "clean:dist": "rm -rf ./dist",
+        "clean:publish": "rm -rf ./publish",
+        "start": "parcel src/index.html",
+        "build": "npm run clean:dist && parcel build src/index.html",
+        "publish": "npm run clean:publish && parcel build src/index.html --dist-dir ./publish --public-url https://indra4you.github.io/iOrderBook/ --no-source-maps"
     },
     "dependencies": {
-        "@angular/animations": "^18.2.3",
-        "@angular/common": "^18.2.3",
-        "@angular/compiler": "^18.2.3",
-        "@angular/core": "^18.2.3",
-        "@angular/forms": "^18.2.3",
-        "@angular/platform-browser": "^18.2.3",
-        "@angular/platform-browser-dynamic": "^18.2.3",
-        "@angular/router": "^18.2.3",
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
-        "rxjs": "^7.8.1",
-        "tslib": "^2.7.0"
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-hook-form": "^7.53.0",
+        "react-router": "^6.26.2",
+        "react-router-dom": "^6.26.2"
     },
     "devDependencies": {
-        "@angular-devkit/build-angular": "^18.2.3",
-        "@angular/cli": "^18.2.3",
-        "@angular/compiler-cli": "^18.2.3",
+        "@parcel/transformer-sass": "^2.12.0",
         "@types/node": "^22.5.4",
+        "@types/react": "^18.3.8",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-router-dom": "^5.3.3",
         "@types/wicg-file-system-access": "^2023.10.5",
+        "parcel": "^2.12.0",
+        "process": "^0.11.10",
         "typescript": "^5.5.4"
     }
 }

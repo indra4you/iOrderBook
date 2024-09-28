@@ -8,10 +8,10 @@
             "ESNext",
             "DOM",
         ],
+        "jsx": "react-jsx",
     },
-    "angularCompilerOptions": {
-        "strictInjectionParameters": true,
-        "strictInputAccessModifiers": true,
-        "strictTemplates": true,
-    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+    ]
 }
