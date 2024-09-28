@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 const baseUrl = process.env.BASE_URL || '/';
-const publishDir = process.env.PUBLISH_DIR || '/';
+const distDirName = process.env.DIST_DIR_NAME || 'dist';
 const filePath = path
     .join(
         __dirname,
-        publishDir,
+        distDirName,
         'index.html'
     );
 
