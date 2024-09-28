@@ -6,7 +6,7 @@ const publishDir = process.env.PUBLISH_DIR || '/';
 const filePath = path
     .join(
         __dirname,
-        'dist',
+        publishDir,
         'index.html'
     );
 
