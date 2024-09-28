@@ -32,7 +32,11 @@ fs.readFile(
         const result = data
             .replace(
                 '%BASE_URL%',
-                baseUrl
+                baseUrl,
+            )
+            .replace(
+                ' type="module"></script>',
+                '',
             );
 
     fs.writeFile(
