@@ -1,0 +1,150 @@
+<div class="offcanvas offcanvas-end show" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="offcanvas-header text-bg-primary">
+        @if (hasValidId) {
+            <h5 class="offcanvas-title">Edit Product</h5>
+        }
+        @else {
+            <h5 class="offcanvas-title">Add Product</h5>
+        }
+    </div>
+
+    <div class="offcanvas-body">
+        @if (isLoading) {
+            <div class="placeholder-glow">
+                @for (item of _noOfFields; track $index) {
+                    <div class="mb-3">
+                        <label class="form-label col-5 placeholder"></label>
+                        
+                        <span class="form-control col-12 placeholder"></span>
+                    </div>
+                }
+    
+                <button type="button" disabled class="btn btn-primary col-4 placeholder">
+                </button>
+    
+                <button type="button" disabled class="btn btn-secondary ms-2 col-4 placeholder">
+                </button>
+            </div>
+        }
+        @else {
+            @if (hasError) {
+                <div class="alert alert-danger" role="alert">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="bi bi-patch-exclamation"></i>
+                        </div>
+            
+                        <div class="col-11">
+                            {{ errorMessage }}
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div [formGroup]="mainFormGroup">
+                <fieldset>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+
+                        <input type="text" formControlName="name" id="name" #focusOn
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.name.errors, 'is-valid': mainFormGroupControls.name.valid }">
+
+                        @if (mainFormGroupControls.name.errors) {
+                            <div class="invalid-feedback">
+                                @if (mainFormGroupControls.name.errors.required) {
+                                    <div>Name is required</div>
+                                }
+                                @else if (mainFormGroupControls.name.errors.minlength) {
+                                    <div>Name at least should be 3 characters</div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+
+                        <div class="input-group has-validation">
+                            <input type="number" formControlName="price" id="price"
+                                class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.price.errors, 'is-valid': mainFormGroupControls.price.valid }"
+                                inputmode="numeric" min="1">
+                            
+                            <span class="input-group-text">₹</span>
+                            
+                            @if (mainFormGroupControls.price.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.price.errors.required) {
+                                        <div>Price is required</div>
+                                    }
+                                    @else if (mainFormGroupControls.price.errors.min || mainFormGroupControls.price.errors.max) {
+                                        <div>Price should be between 10 and 2000</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+
+                        <div class="input-group has-validation">
+                            <input type="number" formControlName="quantity" id="quantity"
+                                class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.quantity.errors, 'is-valid': mainFormGroupControls.quantity.valid }"
+                                inputmode="numeric" min="10">
+                            
+                            <span class="input-group-text">grams</span>
+                            
+                            @if (mainFormGroupControls.quantity.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.quantity.errors.required) {
+                                        <div>Quantity is required</div>
+                                    }
+                                    @else if (mainFormGroupControls.quantity.errors.min || mainFormGroupControls.quantity.errors.max) {
+                                        <div>Quantity should be between 10 and 1000</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sort" class="form-label">Order</label>
+
+                        <input type="number" formControlName="sort" id="sort"
+                            class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.sort.errors, 'is-valid': mainFormGroupControls.sort.valid }"
+                            inputmode="numeric" min="100" step="10">
+                        
+                        @if (mainFormGroupControls.sort.errors) {
+                            <div class="invalid-feedback">
+                                @if (mainFormGroupControls.sort.errors.required) {
+                                    <div>Sort is required</div>
+                                }
+                                @else if (mainFormGroupControls.sort.errors.min || mainFormGroupControls.sort.errors.max) {
+                                    <div>Sort should be between 100 and 2000</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+
+                <button type="submit" (click)="onSubmitClicked()" [disabled]="mainFormGroup.invalid || isSubmitted" class="btn btn-primary" title="Save Product">
+                    @if (isSubmitted) {
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    }
+                    @else {
+                        <i class="bi bi-hdd"></i>
+                    }
+                    <span class="ms-2">Save</span>
+                </button>
+
+                <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2" title="Go back to Products">
+                    <i class="bi bi-x-lg"></i>
+                    <span class="ms-2">Cancel</span>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<div class="offcanvas-backdrop fade show"></div>

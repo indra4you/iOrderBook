@@ -1,0 +1,37 @@
+name: iOrderBook - React v18 - Publish to Github Pages
+
+on:
+  push:
+    tags:
+      - publish/react/v18/v*.*.*
+
+permissions:
+  contents: write
+
+jobs:
+  idatabook-react-v18-publish-to-github-pages-job:
+    name: iOrderBook - React v18 - Publish to Github Pages
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checking-out Code
+      uses: actions/checkout@v4
+
+    - name: Setting-up Node Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    
+    - name: Restoring Dependencies
+      working-directory: ./React.v18
+      run: npm ci
+    
+    - name: Build
+      working-directory: ./React.v18
+      run: npm run publish
+    
+    - name: Publish
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./React.v18/publish

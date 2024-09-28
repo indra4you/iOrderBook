@@ -1,0 +1,216 @@
+<section class="container">
+    <h1 class="my-3" aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a routerLink="/orders" title="Go back to Orders">Orders</a>
+            </li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+                Delete
+            </li>
+        </ul>
+    </h1>
+
+    @if (isLoading) {
+        <div class="placeholder-glow">
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label class="form-label col-5 placeholder"></label>
+    
+                    <span class="form-control col-12 placeholder"></span>
+                </div>
+    
+                <div class="col-md-4 mb-3">
+                    <label class="form-label col-5 placeholder"></label>
+    
+                    <span class="form-control col-12 placeholder"></span>
+                </div>
+            </div>
+
+            <h3 class="mt-3">
+                Products
+            </h3>
+
+            <table class="table">
+                <colgroup>
+                    <col width="3%">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th scope="row" class="text-end">
+                            <span class="form-control col-12 placeholder"></span>
+                        </th>
+                        <td>
+                            <span class="form-control col-12 placeholder"></span>
+                        </td>
+                        <td>
+                            <span class="form-control col-12 placeholder"></span>
+                        </td>
+                        <td>
+                            <span class="form-control col-12 placeholder"></span>
+                        </td>
+                        <td>
+                            <span class="form-control col-12 placeholder"></span>
+                        </td>
+                        <td>
+                            <span class="form-control col-12 placeholder"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+    @else if (hasValidId) {
+        <div class="alert alert-danger" role="alert">
+            <div class="row">
+                <div class="col-1">
+                    <i class="bi bi-patch-question"></i>
+                </div>
+
+                <div class="col-11">
+                    Are you sure you want to delete <span class="fw-bold">Order# {{ order!.id }}</span>?
+                </div>
+            </div>
+        </div>
+
+        @if (hasError) {
+            <div class="alert alert-danger" role="alert">
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-patch-exclamation"></i>
+                    </div>
+        
+                    <div class="col-11">
+                        {{ errorMessage }}
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                <label class="fw-bold">Name</label>
+
+                <span class="form-control-plaintext">{{ order!.name }}</span>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="fw-bold">Mobile Number</label>
+
+                <span class="form-control-plaintext">+91 {{ order!.mobileNumber }}</span>
+            </div>
+        </div>
+
+        <h3 class="mt-3">
+            Products
+        </h3>
+
+        <div class="table-responsive border rounded mb-3">
+            <table class="table table-hover table-striped align-middle mb-0">
+                <colgroup>
+                    <col width="3%">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Product</th>
+                        <th scope="col" class="text-end">Quantity</th>
+                        <th scope="col" class="text-end">Price</th>
+                        <th scope="col" class="text-end">No of Packets</th>
+                        <th scope="col" class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (orderProduct of order!.products; track $index) {
+                        <tr>
+                            <th scope="row" class="text-end">{{ $index + 1 }}.</th>
+                            <td>{{ orderProduct.product.name }}</td>
+                            <td class="text-end">{{ orderProduct.product.quantity }} grams</td>
+                            <td class="text-end">{{ orderProduct.product.price }} ₹</td>
+                            <td class="text-end">{{ orderProduct.numberOfPackets }}</td>
+                            <td class="text-end">{{ orderProduct.amount }} ₹</td>
+                        </tr>
+                    }
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th scope="row" class="text-end"></th>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-end">{{ totalNumberOfPackets }}</th>
+                        <th class="text-end">{{ totalAmount }} ₹</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <button type="button" (click)="onSubmitClicked()" [disabled]="!hasValidId || isSubmitted" class="btn btn-danger" title="Delete Order">
+            @if (isSubmitted) {
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            }
+            @else {
+                <i class="bi bi-trash3"></i>
+            }
+            <span class="ms-2">Delete</span>
+        </button>
+
+        <a routerLink="/orders" class="btn btn-outline-secondary ms-2" title="Go back to Orders">
+            <i class="bi bi-x-lg"></i>
+            <span class="ms-2">Cancel</span>
+        </a>
+    }
+    @else {
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Order Not Valid!</h4>
+                    <p>Looks like the order you are requested is not valid!</p>
+                    <hr>
+                    <p class="mb-0">Please <a routerLink="/orders" class="alert-link">go back</a> and select valid order.</p>
+                  </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    }
+</section>

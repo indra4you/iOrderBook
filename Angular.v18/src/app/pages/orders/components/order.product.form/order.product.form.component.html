@@ -1,0 +1,131 @@
+<div class="offcanvas offcanvas-end show" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="offcanvas-header text-bg-primary">
+        @if (hasProduct) {
+            <h5 class="offcanvas-title">Edit Product</h5>
+        }
+        @else {
+            <h5 class="offcanvas-title">Add Product</h5>
+        }
+    </div>
+
+    <div class="offcanvas-body">
+        @if (isLoading) {
+            <div class="placeholder-glow">
+                @for (item of _noOfFields; track $index) {
+                    <div class="mb-3">
+                        <label class="form-label col-5 placeholder"></label>
+                        
+                        <span class="form-control col-12 placeholder"></span>
+                    </div>
+                }
+    
+                <button type="button" disabled class="btn btn-primary col-4 placeholder">
+                </button>
+    
+                <button type="button" disabled class="btn btn-secondary ms-2 col-4 placeholder">
+                </button>
+            </div>
+        }
+        @else {
+            @if (hasError) {
+                <div class="alert alert-danger" role="alert">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="bi bi-patch-exclamation"></i>
+                        </div>
+            
+                        <div class="col-11">
+                            {{ errorMessage }}
+                        </div>
+                    </div>
+                </div>
+            }
+            @else {
+                <div [formGroup]="mainFormGroup">
+                    <fieldset>
+                        <div class="mb-3">
+                            <label for="productId" class="form-label">Product</label>
+
+                            <select formControlName="productId" id="productId" #focusOn
+                                class="form-select" [ngClass]="{ 'is-invalid': mainFormGroupControls.productId.errors, 'is-valid': mainFormGroupControls.productId.valid }"
+                                (ngModelChange)="onProductSelected($event)">
+                                @for (product of products; track $index) {
+                                    <option [value]="$index">{{ product.name }}</option>
+                                }
+                            </select>
+
+                            @if (mainFormGroupControls.productId.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.productId.errors.required) {
+                                        <div>Product is required</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Quantity</label>
+                                
+                                @if (hasProduct) {
+                                    <span class="form-control-plaintext">{{ product?.quantity }} grams</span>
+                                }
+                                @else {
+                                    <span class="form-control-plaintext"></span>
+                                }
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label">Price</label>
+                                
+                                @if (hasProduct) {
+                                    <span class="form-control-plaintext fw-bold text-primary">{{ product?.price }} ₹</span>
+                                }
+                                @else {
+                                    <span class="form-control-plaintext"></span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">No of Packets</label>
+
+                            <input type="number" formControlName="quantity" id="quantity"
+                                class="form-control" [ngClass]="{ 'is-invalid': mainFormGroupControls.quantity.errors, 'is-valid': mainFormGroupControls.quantity.valid }"
+                                min="1">
+
+                            @if (mainFormGroupControls.quantity.errors) {
+                                <div class="invalid-feedback">
+                                    @if (mainFormGroupControls.quantity.errors.required) {
+                                        <div>No of Packets is required</div>
+                                    }
+
+                                    @if (mainFormGroupControls.quantity.errors.min) {
+                                        <div>No of Packets should be at least 1</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Amount</label>
+                            
+                            <span class="form-control-plaintext fw-bold text-primary">{{ amount }} ₹</span>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" (click)="onSubmitClicked()" [disabled]="mainFormGroup.invalid" class="btn btn-primary" title="Save Product">
+                        <i class="bi bi-hdd"></i>
+                        <span class="ms-2">Save</span>
+                    </button>
+
+                    <button type="button" (click)="onCancelClicked()" class="btn btn-outline-secondary ms-2" title="Go back to Order">
+                        <i class="bi bi-x-lg"></i>
+                        <span class="ms-2">Cancel</span>
+                    </button>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="offcanvas-backdrop fade show"></div>

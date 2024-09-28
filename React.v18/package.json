@@ -7,7 +7,7 @@
         "clean:publish": "rm -rf ./publish",
         "start": "parcel src/index.html",
         "build": "npm run clean:dist && parcel build src/index.html",
-        "publish": "npm run clean:publish && parcel build src/index.html --dist-dir ./publish --public-url https://indra4you.github.io/iOrderBook/ --no-source-maps"
+        "publish": "npm run clean:publish && parcel build src/index.html --dist-dir ./publish --no-source-maps"
     },
     "dependencies": {
         "bootstrap": "^5.3.3",

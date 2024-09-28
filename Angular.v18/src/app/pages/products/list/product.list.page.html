@@ -1,0 +1,110 @@
+<section class="container">
+    <h1 class="my-3">
+        Products
+
+        <a href="#" (click)="onAddProductClicked()" class="text-primary ms-2" title="Add Product">
+            <i class="bi bi-plus-circle-dotted"></i>
+        </a>
+    </h1>
+
+    <div class="table-responsive border rounded mb-3">
+        <table class="table table-hover table-striped align-middle mb-0">
+            <colgroup>
+                <col width="3%">
+                <col>
+                <col>
+                <col>
+                <col>
+                <col width="3%">
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col" class="text-end">Price</th>
+                    <th scope="col" class="text-end">Quantity</th>
+                    <th scope="col" class="text-end">Order</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (isLoading) {
+                    @for (item of _noOfFields; track $index) {
+                        <tr>
+                            <th scope="row">
+                                <div class="placeholder-glow">
+                                    <div class="col-12 placeholder placeholder-sm"></div>
+                                </div>
+                            </th>
+                            <td>
+                                <div class="placeholder-glow">
+                                    <div class="col-12 placeholder placeholder-sm"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="placeholder-glow">
+                                    <div class="col-12 placeholder placeholder-sm"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="placeholder-glow">
+                                    <div class="col-12 placeholder placeholder-sm"></div>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="placeholder-glow">
+                                    <div class="col-12 placeholder placeholder-sm"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                @else if (hasProducts) {
+                    @for (product of products; track $index) {
+                        <tr>
+                            <th scope="row" class="text-end">{{ $index + 1 }}.</th>
+                            <td>{{ product.name }}</td>
+                            <td class="text-end">{{ product.price }} ₹</td>
+                            <td class="text-end">{{ product.quantity }}</td>
+                            <td class="text-end">{{ product.sort }}</td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <button type="button" (click)="onEditProductClicked($index)" class="btn btn-outline-primary" title="Edit Product">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    
+                                    @if (!product.hasOrders) {
+                                        <button type="button" (click)="onDeleteProductClicked($index)" class="btn btn-outline-danger" title="Delete Product">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                @else {
+                    <tr>
+                        <td colspan="6" class="lead text-center text-muted py-2">
+                            Click
+                            <a href="#" (click)="onAddProductClicked()" class="text-primary" title="Add Product">
+                                <i class="bi bi-plus-circle-dotted"></i>
+                            </a>
+                            to add a product
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@if (showProductForm) {
+    <product-form [id]="productEditOrDeleteId" (onClose)="onProductFormClose()"></product-form>
+}
+
+@if (showProductDelete) {
+    <product-delete [id]="productEditOrDeleteId" (onClose)="onProductDeleteClose($event)"></product-delete>
+}

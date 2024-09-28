@@ -1,16 +1,16 @@
-name: iOrderBook - Publish to Github Pages
+name: iOrderBook - Angular v18 - Publish to Github Pages
 
 on:
   push:
     tags:
-      - publish/v*.*.*
+      - publish/angular/v18/v*.*.*
 
 permissions:
   contents: write
 
 jobs:
-  idatabook-publish-to-github-pages-job:
-    name: iOrderBook - Publish to Github Pages
+  idatabook-angular-v18-publish-to-github-pages-job:
+    name: iOrderBook - Angular v18 - Publish to Github Pages
     runs-on: ubuntu-latest
     
     steps:
@@ -23,13 +23,15 @@ jobs:
         node-version: 20.x
     
     - name: Restoring Dependencies
+      working-directory: ./Angular.v18
       run: npm ci
     
     - name: Build
+      working-directory: ./Angular.v18
       run: npm run publish
     
     - name: Publish
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./publish
+        publish_dir: ./Angular.v18/publish/browser

@@ -4,7 +4,7 @@ export const FooterComponent = (
 
     return (
         <footer className="text-center mt-5 py-5 border-top">
-            { currentYear } &copy; iOrder Book
+            { currentYear } &copy; iOrder Book - React v18
         </footer>
     );
 };

@@ -2,4 +2,6 @@
 .vscode
 node_modules
 dist
+publish
+.angular
 .parcel-cache
