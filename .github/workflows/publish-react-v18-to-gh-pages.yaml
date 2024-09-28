@@ -28,7 +28,7 @@ jobs:
     
     - name: Build
       working-directory: ./React.v18
-      run: npm run publish
+      run: npm run build
     
     - name: Publish
       uses: peaceiris/actions-gh-pages@v4

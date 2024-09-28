@@ -3,11 +3,10 @@
     "version": "2.0.0",
     "private": true,
     "scripts": {
-        "clean:dist": "rm -rf ./dist",
-        "clean:publish": "rm -rf ./publish",
+        "clean": "rm -rf ./publish",
+        "postbuild": "node ./parcel.postbuild.js",
         "start": "parcel src/index.html",
-        "build": "npm run clean:dist && parcel build src/index.html",
-        "publish": "npm run clean:publish && parcel build src/index.html --dist-dir ./publish --no-source-maps"
+        "build": "npm run clean && parcel build src/index.html --dist-dir ./publish --no-source-maps && npm run postbuild"
     },
     "dependencies": {
         "bootstrap": "^5.3.3",
