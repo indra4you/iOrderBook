@@ -22,7 +22,7 @@ if (null === rootHtmlElement) {
     reactRootDom
         .render(
             <StrictMode>
-                <BrowserRouter basename={process.env.PUBLIC_URL}>
+                <BrowserRouter basename={process.env.BASE_URL}>
                     <App />
                 </BrowserRouter>
             </StrictMode>
