@@ -1,8 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const dotenv = require('dotenv')
+
+dotenv.config(
+    {
+        path: path.resolve(__dirname, '.env'),
+    },
+);
 
 const baseUrl = process.env.BASE_URL || '/';
 const distDirName = process.env.DIST_DIR_NAME || 'dist';
+console.log('With...');
+console.log('- baseUrl:', baseUrl);
+console.log('- distDirName:', distDirName);
+
 const filePath = path
     .join(
         __dirname,
