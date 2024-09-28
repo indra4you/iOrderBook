@@ -35,7 +35,7 @@ fs.readFile(
                 baseUrl,
             )
             .replace(
-                ' type="module"></script>',
+                'type="module"',
                 '',
             );
 
