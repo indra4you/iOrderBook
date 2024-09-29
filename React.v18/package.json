@@ -6,7 +6,7 @@
         "clean": "rm -rf ./publish",
         "postbuild": "node ./parcel.postbuild.js",
         "start": "parcel src/index.html",
-        "build": "npm run clean && parcel build src/index.html --dist-dir ./publish --no-source-maps && npm run postbuild"
+        "build": "npm run clean && parcel build src/index.html --dist-dir ./publish --public-url https://indra4you.github.io/iOrderBook/ --no-source-maps && npm run postbuild"
     },
     "dependencies": {
         "bootstrap": "^5.3.3",
