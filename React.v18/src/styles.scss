@@ -11,7 +11,8 @@ body {
 }
 
 .navbar {
-    opacity: 0.9;
+    background: hsla(0, 0%, 100%, .8) !important;
+    backdrop-filter: saturate(180%) blur(5px);
 
     .nav-item.dropdown {
         .dropdown-menu {

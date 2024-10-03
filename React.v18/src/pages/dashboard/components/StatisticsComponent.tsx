@@ -60,7 +60,7 @@ export const StatisticsComponent = (
     }
 
     return (
-        <div className="border-bottom pt-4 py-md-4 text-bg-light">
+        <div className="border-bottom pt-4 py-md-4 text-bg-dark">
             <Container>
                 <Row>
                     <Col md="6">
@@ -68,7 +68,7 @@ export const StatisticsComponent = (
 
                         <Row className="text-center">
                             <Col xs="6" sm="4" xl="3" className="mb-4">
-                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow text-dark">
                                     <span className="display-6">{ noOfOrders() }</span>
                                     <br />
                                     <span>Total</span>
@@ -76,7 +76,7 @@ export const StatisticsComponent = (
                             </Col>
 
                             <Col xs="6" sm="4" xl="3" className="mb-4">
-                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-saved shadow">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-saved shadow text-dark">
                                     <span className="display-6">{ noOfSavedOrders() }</span>
                                     <br />
                                     <span>Saved</span>
@@ -84,7 +84,7 @@ export const StatisticsComponent = (
                             </Col>
                             
                             <Col xs="6" sm="4" xl="3" className="mb-4">
-                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-delivered shadow">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-delivered shadow text-dark">
                                     <span className="display-6">{ noOfDeliveredOrders() }</span>
                                     <br />
                                     <span>Delivered</span>
@@ -94,19 +94,19 @@ export const StatisticsComponent = (
                     </Col>
 
                     <Col md="6">
-                        <h1 className="text-md-end">Totals</h1>
+                        <h1 className="text-md-end">Total</h1>
 
                         <Row className="justify-content-md-end text-center">
                             <Col xs="6" sm="4" xl="3" className="mb-4">
-                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow text-dark">
                                     <span className="display-6">{ noOfProducts() }</span>
                                     <br />
-                                    <span>Proudcts</span>
+                                    <span>Products</span>
                                 </div>
                             </Col>
 
                             <Col xs="6" sm="4" xl="3" className="mb-4">
-                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow text-dark">
                                     <span className="display-6">{ grandTotalProductOrderQuantity() }</span>
                                     <br />
                                     <span>Packets</span>
