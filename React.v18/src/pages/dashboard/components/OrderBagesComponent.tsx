@@ -1,7 +1,11 @@
 import {
-    hasNoValue,
-} from '../../../Extensions';
+    Col,
+    Container,
+    Row,
+} from 'react-bootstrap';
+
 import {
+    hasNoValue,
     OrderResponse,
     OrderStatus,
 } from '../../../services';
@@ -18,11 +22,11 @@ export const OrderBagesComponent = (
     ): string {
         switch (orderStatus) {
             case OrderStatus.InProgress:
-                return 'border-danger-subtle bg-danger-subtle';
+                return 'border-warning-subtle bg-status-in-progress';
             case OrderStatus.Saved:
-                return 'border-primary-subtle bg-primary-subtle';
+                return 'border-primary-subtle bg-status-saved';
             case OrderStatus.Delivered:
-                return 'border-success-subtle bg-success-subtle';
+                return 'border-success-subtle bg-status-delivered';
         }
     };
 
@@ -31,7 +35,7 @@ export const OrderBagesComponent = (
     ): string {
         switch (orderStatus) {
             case OrderStatus.InProgress:
-                return 'border-danger-subtle';
+                return 'border-warning-subtle';
             case OrderStatus.Saved:
                 return 'border-primary-subtle';
             case OrderStatus.Delivered:
@@ -41,43 +45,47 @@ export const OrderBagesComponent = (
 
     if (hasNoValue(props.orders)) {
         return (
-            <>
-                <h2 className="mt-5">Orders</h2>
+            <div className="pt-4 py-md-4 bg-light-subtle">
+                <Container>
+                    <h1 className="my-4">Orders</h1>
 
-                <div className="lead text-center text-muted py-2 mb-3">
-                    No Orders
-                </div>
-            </>
+                    <div className="lead text-center text-muted py-2 mb-5">
+                        No Orders
+                    </div>
+                </Container>
+            </div>
         );
     }
 
     return (
-        <>
-            <h2 className="mt-5">Orders</h2>
+        <div className="pt-4 py-md-4 bg-light-subtle">
+            <Container>
+                <h1 className="my-4">Orders</h1>
 
-            <div className="row">
-                {
-                    props.orders
-                        .map(
-                            (order: OrderResponse, index: number) => {
-                                return (
-                                    <div key={index} className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-                                        <div className={`row gx-2 border rounded text-nowrap ${getOrderStatusClass(order.status)}`}>
-                                            <div className="col-6 text-end p-2">
-                                                { order.id }
-                                            </div>
+                <Row className="mb-3">
+                    {
+                        props.orders
+                            .map(
+                                (order: OrderResponse, index: number) => {
+                                    return (
+                                        <Col key={index} xs="6" md="4" lg="3" xl="2" className="mb-3">
+                                            <Row className={`gx-2 border rounded shadow text-nowrap ${getOrderStatusClass(order.status)}`}>
+                                                <Col className="text-end p-2">
+                                                    { order.id }
+                                                </Col>
 
-                                            <div className={`col-6 col-md-4 col-lg-3 col-xl-2 p-2 border-3 border-start text-nowrap ${getOrderStatusBorderClass(order.status)}`}>
-                                                { order.totalAmount } ₹
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            }
-                        )
-                }
-            </div>
-        </>
+                                                <Col className={`p-2 border-4 border-start text-nowrap ${getOrderStatusBorderClass(order.status)}`}>
+                                                    { order.totalAmount } ₹
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    );
+                                }
+                            )
+                    }
+                </Row>
+            </Container>
+        </div>
     );
 };
 

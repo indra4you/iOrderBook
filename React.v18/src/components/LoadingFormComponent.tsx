@@ -1,6 +1,9 @@
 import {
     PropsWithChildren,
 } from 'react';
+import {
+    Placeholder,
+} from 'react-bootstrap';
 
 type LoadingFormProps = {
     noOfFields: number,
@@ -10,25 +13,26 @@ export const LoadingFormComponent = (
     props: PropsWithChildren<LoadingFormProps>,
 ): JSX.Element => {
     return (
-        <div className="placeholder-glow">
+        <Placeholder animation="glow">
             {
                 [...Array(props.noOfFields).keys()]
                     .map(
                         (_, index) => {
                             return (
                                 <div key={index} className="mb-3">
-                                    <label className="form-label col-5 placeholder"></label>
-            
-                                    <span className="form-control col-12 placeholder"></span>
+                                    <Placeholder xs={5} />
+                                    
+                                    <Placeholder xs={12} />
                                 </div>
                             )
                         }
                     )
             }
             
-            <button type="button" disabled className="btn btn-primary col-4 placeholder"></button>
-            <button type="button" disabled className="btn btn-secondary col-4 placeholder ms-2"></button>
-        </div>
+            <Placeholder.Button variant="dark" xs={4} />
+            { ` ` }
+            <Placeholder.Button variant="secondary" xs={4} />
+        </Placeholder>
     );
 };
 

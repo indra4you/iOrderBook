@@ -1,4 +1,10 @@
 import {
+    Col,
+    Container,
+    Row,
+} from 'react-bootstrap';
+
+import {
     OrderResponse,
     OrderStatus,
     ProductResponse,
@@ -54,58 +60,62 @@ export const StatisticsComponent = (
     }
 
     return (
-        <div className="row mt-4">
-            <div className="col-12 col-md-6">
-                <h2>Orders</h2>
+        <div className="border-bottom pt-4 py-md-4 text-bg-light">
+            <Container>
+                <Row>
+                    <Col md="6">
+                        <h1>Orders</h1>
 
-                <div className="row text-center">
-                    <div className="col-6 col-sm-4 col-xl-3 mb-4">
-                        <div className="h-100 p-3 border rounded-3 border-light-subtle bg-light-subtle">
-                            <span className="display-6">{ noOfOrders() }</span>
-                            <br />
-                            <span>Total</span>
-                        </div>
-                    </div>
+                        <Row className="text-center">
+                            <Col xs="6" sm="4" xl="3" className="mb-4">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                    <span className="display-6">{ noOfOrders() }</span>
+                                    <br />
+                                    <span>Total</span>
+                                </div>
+                            </Col>
 
-                    <div className="col-6 col-sm-4 col-xl-3 mb-4">
-                        <div className="h-100 p-3 border rounded-3 border-primary-subtle bg-primary-subtle">
-                            <span className="display-6">{ noOfSavedOrders() }</span>
-                            <br />
-                            <span>Saved</span>
-                        </div>
-                    </div>
-                    
-                    <div className="col-6 col-sm-4 col-xl-3 mb-4">
-                        <div className="h-100 p-3 border rounded-3 border-success-subtle bg-success-subtle">
-                            <span className="display-6">{ noOfDeliveredOrders() }</span>
-                            <br />
-                            <span>Delivered</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <Col xs="6" sm="4" xl="3" className="mb-4">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-saved shadow">
+                                    <span className="display-6">{ noOfSavedOrders() }</span>
+                                    <br />
+                                    <span>Saved</span>
+                                </div>
+                            </Col>
+                            
+                            <Col xs="6" sm="4" xl="3" className="mb-4">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-delivered shadow">
+                                    <span className="display-6">{ noOfDeliveredOrders() }</span>
+                                    <br />
+                                    <span>Delivered</span>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
 
-            <div className="col-12 col-md-6">
-                <h2 className="text-md-end">Totals</h2>
+                    <Col md="6">
+                        <h1 className="text-md-end">Totals</h1>
 
-                <div className="row text-center d-flex justify-content-md-end">
-                    <div className="col-6 col-sm-4 col-xl-3 mb-4">
-                        <div className="h-100 p-3 border rounded-3 border-light-subtle bg-light-subtle">
-                            <span className="display-6">{ noOfProducts() }</span>
-                            <br />
-                            <span>Proudcts</span>
-                        </div>
-                    </div>
+                        <Row className="justify-content-md-end text-center">
+                            <Col xs="6" sm="4" xl="3" className="mb-4">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                    <span className="display-6">{ noOfProducts() }</span>
+                                    <br />
+                                    <span>Proudcts</span>
+                                </div>
+                            </Col>
 
-                    <div className="col-6 col-sm-4 col-xl-3 mb-4">
-                        <div className="h-100 p-3 border rounded-3 border-light-subtle bg-light-subtle">
-                            <span className="display-6">{ grandTotalProductOrderQuantity() }</span>
-                            <br />
-                            <span>Packets</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <Col xs="6" sm="4" xl="3" className="mb-4">
+                                <div className="h-100 p-3 border border-secondary-subtle rounded-4 bg-status-light shadow">
+                                    <span className="display-6">{ grandTotalProductOrderQuantity() }</span>
+                                    <br />
+                                    <span>Packets</span>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 };

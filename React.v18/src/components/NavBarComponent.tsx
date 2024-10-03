@@ -1,4 +1,11 @@
 import {
+    Container,
+    Nav,
+    Navbar,
+    NavDropdown,
+    NavItem,
+} from 'react-bootstrap';
+import {
     NavigateFunction,
     useNavigate,
 } from 'react-router';
@@ -87,98 +94,76 @@ export const NavBarComponent = (
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark text-bg-primary">
-                <div className="container">
-                    <NavLink to="/" className="navbar-brand mb-0 h1 fs-4">
+            <Navbar expand="lg" className="bg-white border-bottom" sticky="top">
+                <Container>
+                    <Navbar.Brand as={NavLink} to="/" className="fs-4 h1 mb-0">
                         <i className="bi bi-hdd-rack"></i>
                         <span className="ms-2">iOrder Book</span>
-                    </NavLink>
+                    </Navbar.Brand>
 
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                    <Navbar.Toggle aria-controls="navbarContent" />
 
-                    <div id="navbarContent" className="collapse navbar-collapse">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <NavLink to="/" className={navLinkActive}>
-                                    <i className="bi bi-display"></i>
-                                    <span className="ms-2">Dashboard</span>
-                                </NavLink>
-                            </li>
+                    <Navbar.Collapse id="navbarContent" role="navigation">
+                        <Nav className="me-auto">
+                            <NavLink to="/" className={navLinkActive}>
+                                <i className="bi bi-display"></i>
+                                <span className="ms-2">Dashboard</span>
+                            </NavLink>
 
-                            <li className="nav-item">
-                                <NavLink to="/orders" className={navLinkActive}>
-                                    <i className="bi bi-postcard"></i>
-                                    <span className="ms-2">Orders</span>
-                                </NavLink>
-                            </li>
+                            <NavLink to="/orders" className={navLinkActive}>
+                                <i className="bi bi-postcard"></i>
+                                <span className="ms-2">Orders</span>
+                            </NavLink>
 
-                            <li className="nav-item">
-                                <NavLink to="/products" className={navLinkActive}>
-                                    <i className="bi bi-receipt"></i>
-                                    <span className="ms-2">Products</span>
-                                </NavLink>
-                            </li>
-                        </ul>
+                            <NavLink to="/products" className={navLinkActive}>
+                                <i className="bi bi-receipt"></i>
+                                <span className="ms-2">Products</span>
+                            </NavLink>
+                        </Nav>
 
-                        <ul className="navbar-nav d-flex">
+                        <Nav>
                             {
                                 !canPerformFileOperations() &&
-                                    <li className="nav-item dropdown">
+                                    <NavItem>
                                         <span className="nav-link fs-5 active" title="iData File">
                                             <span className="ms-2">( In Memory )</span>
                                         </span>
-                                    </li>
+                                    </NavItem>
                             }
 
                             {
                                 canPerformFileOperations() &&
-                                    <li className="nav-item dropdown">
-                                        <a href="#" className="nav-link fs-5 active dropdown-toggle" role="button" title="iData File" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span className="ms-2">{ fileName() }</span>
-                                        </a>
+                                    <NavDropdown id="navFileDropdown" title={fileName()} placement="auto-end" className="fs-5">
+                                        {
+                                            !hasFileHandle() &&
+                                                <NavDropdown.Item onClick={saveClicked} className="fs-5" title="Save data to a new file">
+                                                    <i className="bi bi-download"></i>
+                                                    <span className="ms-2">Save to File</span>
+                                                </NavDropdown.Item>
+                                        }
 
-                                        <ul className="dropdown-menu dropdown-menu-end">
-                                            {
-                                                !hasFileHandle() &&
-                                                    <li>
-                                                        <button type="button" onClick={saveClicked} className="dropdown-item fs-5" title="Save data to a new file">
-                                                            <i className="bi bi-download"></i>
-                                                            <span className="ms-2">Save to File</span>
-                                                        </button>
-                                                    </li>
-                                            }
+                                        <NavDropdown.Item onClick={openClicked} className="fs-5" title="Open existing data file">
+                                            <i className="bi bi-upload"></i>
+                                            <span className="ms-2">Open File</span>
+                                        </NavDropdown.Item>
 
-                                            <li>
-                                                <button type="button" onClick={openClicked} className="dropdown-item fs-5" title="Open existing data file">
-                                                    <i className="bi bi-upload"></i>
-                                                    <span className="ms-2">Open File</span>
-                                                </button>
-                                            </li>
+                                        {
+                                            hasFileHandle() &&
+                                                <>
+                                                    <NavDropdown.Divider />
 
-                                            {
-                                                hasFileHandle() &&
-                                                    <>
-                                                        <li>
-                                                            <hr className="dropdown-divider" />
-                                                        </li>
-                                                        
-                                                        <li>
-                                                            <button type="button" onClick={closeClicked} className="dropdown-item fs-5" title="Close currently open file">
-                                                                <i className="bi bi-x-octagon"></i>
-                                                                <span className="ms-2">Close File</span>
-                                                            </button>
-                                                        </li>
-                                                    </>
-                                            }
-                                        </ul>
-                                    </li>
-                                }
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                                                    <NavDropdown.Item onClick={closeClicked} className="fs-5" title="Close currently open file">
+                                                        <i className="bi bi-x-octagon"></i>
+                                                        <span className="ms-2">Close File</span>
+                                                    </NavDropdown.Item>
+                                                </>
+                                        }
+                                    </NavDropdown>
+                            }
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
 
             {
                 !canPerformFileOperations() &&

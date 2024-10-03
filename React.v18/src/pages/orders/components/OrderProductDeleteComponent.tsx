@@ -1,6 +1,10 @@
 import {
-    AlertComponent,
-} from '../../../components';
+    Alert,
+    Button,
+    Form,
+    Offcanvas,
+} from 'react-bootstrap';
+
 import {
     OrderProductResponse,
 } from '../../../services';
@@ -24,45 +28,43 @@ export const OrderProductDeleteComponent = (
     };
 
     return (
-        <>
-            <div className="offcanvas offcanvas-end show" tabIndex={-1} aria-modal="true" role="dialog">
-                <div className="offcanvas-header text-bg-primary">
-                    <h5 className="offcanvas-title">Delete Product</h5>
-                </div>
+        <Offcanvas show={true} onHide={onCancelClicked} placement="end">
+            <Offcanvas.Header className="text-bg-danger">
+                <Offcanvas.Title>
+                    <i className="bi bi-receipt me-2"></i>
+                    Delete Product
+                </Offcanvas.Title>
+            </Offcanvas.Header>
 
-                <div className="offcanvas-body">
-                    <AlertComponent
-                        message="Are you sure you want to delete Product?"
-                        icon="question"
-                        type="danger"
-                        onOffcanvas={true} />
+            <Offcanvas.Body>
+                <Alert variant="danger">
+                    <i className={`bi bi-patch-question me-3`}></i>
+                    Are you sure you want to delete Product?
+                </Alert>
 
-                    <div className="mb-3">
-                        <label className="fw-bold">Name</label>
+                <Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label className="fw-bold mb-0">Name</Form.Label>
+                        <Form.Control plaintext readOnly defaultValue={ props.orderProduct.product.name } />
+                    </Form.Group>
 
-                        <span className="form-control-plaintext">{ props.orderProduct.product.name }</span>
-                    </div>
+                    <Form.Group className="mb-3">
+                        <Form.Label className="fw-bold mb-0">Number of Packets</Form.Label>
+                        <Form.Control plaintext readOnly defaultValue={ props.orderProduct.numberOfPackets } />
+                    </Form.Group>
+                </Form>
 
-                    <div className="mb-3">
-                        <label className="fw-bold">Number of Packets</label>
+                <Button type="submit" onClick={onDeleteClicked} variant="danger" title="Delete Product">
+                    <i className="bi bi-trash3"></i>
+                    <span className="ms-2">Delete</span>
+                </Button>
 
-                        <span className="form-control-plaintext">{ props.orderProduct.numberOfPackets }</span>
-                    </div>
-
-                    <button type="submit" onClick={onDeleteClicked} className="btn btn-danger" title="Delete Product">
-                        <i className="bi bi-trash3"></i>
-                        <span className="ms-2">Delete</span>
-                    </button>
-
-                    <button type="reset" onClick={onCancelClicked} className="btn btn-outline-secondary ms-2" title="Go back to Products">
-                        <i className="bi bi-x-lg"></i>
-                        <span className="ms-2">Cancel</span>
-                    </button>
-                </div>
-            </div>
-
-            <div className="offcanvas-backdrop fade show"></div>
-        </>
+                <Button type="reset" onClick={onCancelClicked} variant="outline-secondary" className="ms-2" title="Go back to Products">
+                    <i className="bi bi-x-lg"></i>
+                    <span className="ms-2">Cancel</span>
+                </Button>
+            </Offcanvas.Body>
+        </Offcanvas>
     );
 };
 

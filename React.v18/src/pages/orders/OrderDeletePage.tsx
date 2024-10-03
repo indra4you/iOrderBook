@@ -3,6 +3,14 @@ import {
     useState,
 } from 'react';
 import {
+    Alert,
+    Breadcrumb,
+    Button,
+    Col,
+    Container,
+    Row,
+} from 'react-bootstrap';
+import {
     Link,
     NavigateFunction,
     useNavigate,
@@ -10,17 +18,11 @@ import {
 } from 'react-router-dom';
 
 import {
-    AlertComponent,
     PageTitleComponent,
 } from '../../components';
 import {
     DataStatus,
-} from '../../domains';
-import {
     isNotNullOrEmpty,
-} from '../../Extensions';
-import {
-    OrderProductResponse,
     OrderResponse,
     ServiceProvider,
     useServiceContext,
@@ -111,33 +113,45 @@ export const OrderDeletePage = (
     };
 
     return (
-        <>
+        <div className="pt-4 py-md-4">
             <PageTitleComponent title="View Order" />
 
-            <section className="container">
-                <h1 className="my-3" aria-label="breadcrumb">
-                    <ul className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link to="/orders" title="Go back to Orders">Orders</Link>
-                        </li>
+            <Container>
+                <Breadcrumb className="h1">
+                    <Breadcrumb.Item>
+                        <Link to="/orders" title="Go back to Orders">
+                            <i className="bi bi-postcard"></i>
+                            <span className="ms-2">Orders</span>
+                        </Link>
+                    </Breadcrumb.Item>
 
-                        <li className="breadcrumb-item">
-                            <Link to={`/orders/${id}`} title="View Orders">#{ id }</Link>
-                        </li>
+                    <Breadcrumb.Item>
+                        <Link  to={`/orders/${id}`} title="View Orders">
+                            <i className="bi bi-binoculars"></i>
+                            <span className="mx-2">#{ id }</span>
+                        </Link>
+                    </Breadcrumb.Item>
 
-                        <li className="breadcrumb-item active" aria-current="page">
-                            <span className="me-2">Delete</span>
-                        </li>
-                    </ul>
-                </h1>
+                    <Breadcrumb.Item active>
+                        <i className="bi bi-trash3"></i>
+                        <span className="me-2">Delete</span>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
 
                 {
                     hasError() &&
-                        <AlertComponent
-                            message={errorMessage}
-                            icon="exclamation"
-                            type="danger"
-                            onOffcanvas={false} />
+                        <Row>
+                            <Col xs="1" md="3"></Col>
+
+                            <Col xs="10" md="6">
+                                <Alert variant="danger">
+                                    <i className='bi bi-patch-exclamation me-3'></i>
+                                    { errorMessage }
+                                </Alert>
+                            </Col>
+
+                            <Col xs="1" md="3"></Col>
+                        </Row>
                 }
 
                 {
@@ -147,30 +161,37 @@ export const OrderDeletePage = (
 
                 {
                     !dataStatus.isLoading && dataStatus.hasData &&
-                        <>
-                            <AlertComponent
-                                message={`Are you sure you want to delete Order# ${dataStatus.data!.id}?`}
-                                icon="question"
-                                type="danger"
-                                onOffcanvas={false} />
+                        <div className="mb-3">
+                            <Row>
+                                <Col xs="1" md="3"></Col>
+
+                                <Col xs="10" md="6">
+                                    <Alert variant="danger">
+                                        <i className='bi bi-patch-question me-3'></i>
+                                        Are you sure you want to delete Order# {dataStatus.data!.id}?
+                                    </Alert>
+                                </Col>
+
+                                <Col xs="1" md="3"></Col>
+                            </Row>
                             
                             <OrderViewComponent
                                 order={dataStatus.data!}
                             />
 
-                            <button type="button" onClick={onDeleteClicked} className="btn btn-danger" title="Delete Order">
+                            <Button type="button" onClick={onDeleteClicked} variant="danger" title="Delete Order">
                                 <i className="bi bi-trash3"></i>
                                 <span className="ms-2">Delete</span>
-                            </button>
+                            </Button>
 
                             <Link to="/orders" className="btn btn-outline-secondary ms-2" title="Go back to Products">
                                 <i className="bi bi-x-lg"></i>
                                 <span className="ms-2">Cancel</span>
                             </Link>
-                        </>
+                        </div>
                 }
-            </section>
-        </>
+            </Container>
+        </div>
     );
 };
 

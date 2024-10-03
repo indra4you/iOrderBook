@@ -1,10 +1,6 @@
 @import "../node_modules/bootstrap/scss/functions";
-
-$primary: #6f42c1;
-
 @import "../node_modules/bootstrap/scss/variables";
 
-$body-bg: $gray-100;
 $enable-shadows: true;
 $enable-gradients: true;
 
@@ -14,14 +10,31 @@ body {
     margin: 0;
 }
 
-.input-group-text {
-    background-color: #e9ecef;
-    border-color: #dee2e6;
+.navbar {
+    opacity: 0.9;
+
+    .nav-item.dropdown {
+        .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
+    }
 }
 
-.btn[aria-expanded=false] .collapse-hide {
-    display: none;
+.bg-status-light {
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 }
-.btn[aria-expanded=true] .expanded-hide {
-    display: none;
+
+.bg-status-in-progress {
+    background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
 }
+
+.bg-status-saved {
+    background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+}
+
+.bg-status-delivered {
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";

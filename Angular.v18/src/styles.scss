@@ -18,10 +18,3 @@ body {
     background-color: #e9ecef;
     border-color: #dee2e6;
 }
-
-.btn[aria-expanded=false] .collapse-hide {
-    display: none;
-}
-.btn[aria-expanded=true] .expanded-hide {
-    display: none;
-}

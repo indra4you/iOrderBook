@@ -1,4 +1,11 @@
 import {
+    Col,
+    Form,
+    Row,
+    Table,
+} from 'react-bootstrap';
+
+import {
     OrderProductResponse,
     OrderResponse,
 } from '../../../services';
@@ -11,27 +18,25 @@ export const OrderViewComponent = (
     props: OrderViewProps,
 ): JSX.Element => {
     return (
-        <>
-            <div className="row">
-                <div className="col-md-8 mb-3">
-                    <label className="fw-bold">Name</label>
+        <Form>
+            <Row>
+                <Col xs="12" md="8" className="mb-3">
+                    <Form.Label className="fw-bold mb-0">Name</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={ props.order.name } />
+                </Col>
 
-                    <span className="form-control-plaintext">{ props.order.name }</span>
-                </div>
-
-                <div className="col-md-4 mb-3">
-                    <label className="fw-bold">Mobile Number</label>
-
-                    <span className="form-control-plaintext">{ props.order.mobileNumber }</span>
-                </div>
-            </div>
+                <Col xs="12" md="4" className="mb-3">
+                    <Form.Label className="fw-bold mb-0">Mobile Number</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={ props.order.mobileNumber } />
+                </Col>
+            </Row>
 
             <h3 className="mt-3">
                 Products
             </h3>
 
             <div className="table-responsive border rounded mb-3">
-                <table className="table table-hover table-striped align-middle mb-0">
+                <Table className="table table-hover table-striped align-middle mb-0">
                     <colgroup>
                         <col width="3%" />
                         <col />
@@ -69,9 +74,9 @@ export const OrderViewComponent = (
                                 })
                         }
                     </tbody>
-                </table>
+                </Table>
             </div>
-        </>
+        </Form>
     );
 };
 

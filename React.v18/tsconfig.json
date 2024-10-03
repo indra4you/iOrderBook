@@ -1,17 +1,12 @@
 {
     "compilerOptions": {
-        "strict": true,
+        "jsx": "react-jsx",
         "moduleResolution": "Bundler",
         "target": "ESNext",
         "module": "ESNext",
         "lib": [
-            "ESNext",
             "DOM",
-        ],
-        "jsx": "react-jsx",
+            "ESNext",
+        ]
     },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-    ]
 }

@@ -1,3 +1,7 @@
+import {
+    Placeholder,
+} from 'react-bootstrap';
+
 type LoadingTableBodyProps = {
     noOfRows: number,
     noOfColumns: number,
@@ -11,9 +15,9 @@ export const LoadingTableBodyComponent = (
             (_, index) => {
                 return (
                     <td key={index} scope="row">
-                        <div className="placeholder-glow">
-                            <div className="col-12 placeholder placeholder-sm"></div>
-                        </div>
+                        <Placeholder animation="glow">
+                            <Placeholder xs={12} />
+                        </Placeholder>
                     </td>
                 )
             }

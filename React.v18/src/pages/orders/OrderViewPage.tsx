@@ -3,6 +3,13 @@ import {
     useState,
 } from 'react';
 import {
+    Alert,
+    Breadcrumb,
+    Col,
+    Container,
+    Row,
+} from 'react-bootstrap';
+import {
     Link,
     NavigateFunction,
     useNavigate,
@@ -10,16 +17,11 @@ import {
 } from 'react-router-dom';
 
 import {
-    AlertComponent,
     PageTitleComponent,
 } from '../../components';
 import {
     DataStatus,
-} from '../../domains';
-import {
     isNotNullOrEmpty,
-} from '../../Extensions';
-import {
     OrderResponse,
     ServiceProvider,
     useServiceContext,
@@ -98,29 +100,38 @@ export const OrderViewPage = (
     );
 
     return (
-        <>
+        <div className="pt-4 py-md-4">
             <PageTitleComponent title="View Order" />
 
-            <section className="container">
-                <h1 className="my-3" aria-label="breadcrumb">
-                    <ul className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link to="/orders" title="Go back to Orders">Orders</Link>
-                        </li>
+            <Container>
+                <Breadcrumb className="h1">
+                    <Breadcrumb.Item>
+                        <Link to="/orders" title="Go back to Orders">
+                            <i className="bi bi-postcard"></i>
+                            <span className="ms-2">Orders</span>
+                        </Link>
+                    </Breadcrumb.Item>
 
-                        <li className="breadcrumb-item active" aria-current="page">
-                            <span className="me-2">#{ id }</span>
-                        </li>
-                    </ul>
-                </h1>
+                    <Breadcrumb.Item active>
+                        <i className="bi bi-binoculars"></i>
+                        <span className="mx-2">#{ id }</span>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
 
                 {
                     hasError() &&
-                        <AlertComponent
-                            message={errorMessage}
-                            icon="exclamation"
-                            type="danger"
-                            onOffcanvas={false} />
+                        <Row>
+                            <Col xs="1" md="3"></Col>
+
+                            <Col xs="10" md="6">
+                                <Alert variant="danger">
+                                    <i className='bi bi-patch-exclamation me-3'></i>
+                                    { errorMessage }
+                                </Alert>
+                            </Col>
+
+                            <Col xs="1" md="3"></Col>
+                        </Row>
                 }
 
                 {
@@ -134,8 +145,8 @@ export const OrderViewPage = (
                             order={dataStatus.data!}
                         />
                 }
-            </section>
-        </>
+            </Container>
+        </div>
     );
 };
 

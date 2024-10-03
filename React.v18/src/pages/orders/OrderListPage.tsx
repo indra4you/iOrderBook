@@ -3,6 +3,14 @@ import {
     useState,
 } from 'react';
 import {
+    Alert,
+    AlertHeading,
+    Col,
+    Container,
+    Row,
+    Table,
+} from 'react-bootstrap';
+import {
     Link,
 } from 'react-router-dom';
 
@@ -12,8 +20,6 @@ import {
 } from '../../components';
 import {
     DataStatus,
-} from '../../domains';
-import {
     OrderResponse,
     OrderStatus,
     ProductResponse,
@@ -71,11 +77,11 @@ export const OrderListPage = (
     ): string {
         switch (orderStatus) {
             case OrderStatus.InProgress:
-                return 'border-danger-subtle bg-danger-subtle';
+                return 'bg-status-in-progress';
             case OrderStatus.Saved:
-                return 'border-primary-subtle bg-primary-subtle';
+                return 'bg-status-saved';
             case OrderStatus.Delivered:
-                return 'border-success-subtle bg-success-subtle';
+                return 'bg-status-delivered';
         }
     };
 
@@ -99,50 +105,52 @@ export const OrderListPage = (
     );
 
     return (
-        <>
+        <div className="pt-4 py-md-4">
             <PageTitleComponent title="Orders" />
 
-            <section className="container">
+            <Container>
                 {
                     !hasProducts &&
                         <>
-                            <h1 className="my-3">
+                            <h1>
+                                <i className="bi bi-postcard me-2"></i>
                                 Orders
                             </h1>
 
-                            <div className="row">
-                                <div className="col-md-4 col-sm-1"></div>
+                            <Row>
+                                <Col xs="1" md="4"></Col>
 
-                                <div className="col-md-4 col-10">
-                                    <div className="alert alert-warning" role="alert">
-                                        <h4 className="alert-heading">
+                                <Col xs="10" md="4">
+                                    <Alert variant="warning">
+                                        <AlertHeading>
                                             <i className="bi bi-patch-exclamation me-2"></i> No Products
-                                        </h4>
+                                        </AlertHeading>
 
                                         <hr />
 
                                         <p className="mb-0">Create few products by clicking <Link to="/products" className="alert-link">here</Link>.</p>
-                                    </div>
-                                </div>
+                                    </Alert>
+                                </Col>
 
-                                <div className="col-md-4 col-sm-1"></div>
-                            </div>
+                                <Col xs="1" md="4"></Col>
+                            </Row>
                         </>
                 }
 
                 {
                     hasProducts &&
                         <>
-                            <h1 className="my-3">
+                            <h1>
+                                <i className="bi bi-postcard me-2"></i>
                                 Orders
 
-                                <Link to="/orders/add" className="text-primary ms-3" title="Add Order">
+                                <Link to="/orders/add" className="text-dark ms-3" title="Add Order">
                                     <i className="bi bi-plus-circle-dotted"></i>
                                 </Link>
                             </h1>
 
                             <div className="table-responsive border rounded mb-3">
-                                <table className="table table-hover table-striped align-middle mb-0">
+                                <Table className="table table-hover table-striped align-middle mb-0">
                                     <colgroup>
                                         <col width="3%" />
                                         <col />
@@ -179,7 +187,7 @@ export const OrderListPage = (
                                                 <tr>
                                                     <td colSpan={7} className="lead text-center text-muted py-2">
                                                         Click
-                                                        <Link to="/orders/add" className="text-primary mx-2" title="Add Order">
+                                                        <Link to="/orders/add" className="text-dark mx-2" title="Add Order">
                                                             <i className="bi bi-plus-circle-dotted"></i>
                                                         </Link>
                                                         to add a order
@@ -213,7 +221,7 @@ export const OrderListPage = (
                                                                             {
                                                                                 canEdit(order.status) &&
                                                                                     <>
-                                                                                        <Link to={`/orders/${order.id}/edit`} className="btn btn-outline-primary" title="Edit Order">
+                                                                                        <Link to={`/orders/${order.id}/edit`} className="btn btn-outline-dark" title="Edit Order">
                                                                                             <i className="bi bi-pencil"></i>
                                                                                         </Link>
                                                                                         
@@ -230,12 +238,12 @@ export const OrderListPage = (
                                                     )
                                         }
                                     </tbody>
-                                </table>
+                                </Table>
                             </div>
                         </>
                 }
-            </section>
-        </>
+            </Container>
+        </div>
     );
 };
 

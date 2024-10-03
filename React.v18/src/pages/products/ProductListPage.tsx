@@ -2,6 +2,12 @@ import {
     useEffect,
     useState,
 } from 'react';
+import {
+    Button,
+    ButtonGroup,
+    Container,
+    Table,
+} from 'react-bootstrap';
 
 import {
     LoadingTableBodyComponent,
@@ -9,8 +15,6 @@ import {
 } from '../../components';
 import {
     DataStatus,
-} from '../../domains';
-import {
     ProductResponse,
     ServiceProvider,
     useServiceContext,
@@ -98,20 +102,21 @@ export const ProductListPage = (
     );
 
     return (
-        <>
+        <div className="pt-4 py-md-4">
             <PageTitleComponent title="Products" />
             
-            <section className="container">
-                <h1 className="my-3">
+            <Container>
+                <h1>
+                    <i className="bi bi-receipt me-2"></i>
                     Products
 
-                    <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-primary ms-2" title="Add Product">
+                    <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-dark ms-2" title="Add Product">
                         <i className="bi bi-plus-circle-dotted"></i>
                     </button>
                 </h1>
 
                 <div className="table-responsive border rounded mb-3">
-                    <table className="table table-hover table-striped align-middle mb-0">
+                    <Table className="table table-hover table-striped align-middle mb-0">
                         <colgroup>
                             <col width="3%" />
                             <col />
@@ -123,7 +128,7 @@ export const ProductListPage = (
 
                         <thead>
                             <tr>
-                                <th scope="col"></th>
+                                <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col" className="text-end">Price</th>
                                 <th scope="col" className="text-end">Quantity</th>
@@ -146,7 +151,7 @@ export const ProductListPage = (
                                     <tr>
                                         <td colSpan={6} className="lead text-center text-muted py-2">
                                             Click
-                                            <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-primary" title="Add Product">
+                                            <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-dark" title="Add Product">
                                                 <i className="bi bi-plus-circle-dotted"></i>
                                             </button>
                                             to add a product
@@ -167,18 +172,18 @@ export const ProductListPage = (
                                                         <td className="text-end">{ product.quantity }</td>
                                                         <td className="text-end">{ product.sort }</td>
                                                         <td className="text-end">
-                                                            <div className="btn-group">
-                                                                <button type="button" onClick={() => onEditProductClicked(product)} className="btn btn-outline-primary" title="Edit Product">
+                                                            <ButtonGroup>
+                                                                <Button type="button" onClick={() => onEditProductClicked(product)} variant="outline-dark" title="Edit Product">
                                                                     <i className="bi bi-pencil"></i>
-                                                                </button>
+                                                                </Button>
                                                                 
                                                                 {
                                                                     !product.hasOrders &&
-                                                                        <button type="button" onClick={() => onDeleteProductClicked(product)} className="btn btn-outline-danger" title="Delete Product">
+                                                                        <Button type="button" onClick={() => onDeleteProductClicked(product)} variant="outline-danger" title="Delete Product">
                                                                             <i className="bi bi-trash3"></i>
-                                                                        </button>
+                                                                        </Button>
                                                                 }
-                                                            </div>
+                                                            </ButtonGroup>
                                                         </td>
                                                     </tr>
                                                 )
@@ -186,9 +191,9 @@ export const ProductListPage = (
                                         )
                             }
                         </tbody>
-                    </table>
+                    </Table>
                 </div>
-            </section>
+            </Container>
 
             {
                 showForm &&
@@ -205,7 +210,7 @@ export const ProductListPage = (
                         onClose={onOffcanvasClose}
                     />
             }
-        </>
+        </div>
     );
 };
 

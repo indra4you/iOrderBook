@@ -1,26 +1,31 @@
+import {
+    Col,
+    Placeholder,
+    Row,
+    Table,
+} from 'react-bootstrap';
+
 export const LoadingFormComponent = (
 ): JSX.Element => {
     return (
-        <div className="placeholder-glow">
-            <div className="row">
-                <div className="col-md-8 mb-3">
-                    <label className="form-label col-5 placeholder"></label>
+        <Placeholder animation="glow">
+            <Row>
+                <Col xs="12" md="8" className="mb-3">
+                    <Placeholder xs="5" />
+                    <Placeholder xs="12" />
+                </Col>
     
-                    <span className="form-control col-12 placeholder"></span>
-                </div>
-    
-                <div className="col-md-4 mb-3">
-                    <label className="form-label col-5 placeholder"></label>
-    
-                    <span className="form-control col-12 placeholder"></span>
-                </div>
-            </div>
+                <Col xs="12" md="4" className="mb-3">
+                    <Placeholder xs="5" />
+                    <Placeholder xs="12" />
+                </Col>
+            </Row>
 
             <h3 className="mt-3">
                 Products
             </h3>
 
-            <table className="table">
+            <Table>
                 <colgroup>
                     <col width="3%" />
                     <col />
@@ -34,22 +39,22 @@ export const LoadingFormComponent = (
                 <thead>
                     <tr>
                         <th scope="col">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <th scope="col">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <th scope="col">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <th scope="col">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <th scope="col">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <th scope="col" colSpan={2}>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                     </tr>
                 </thead>
@@ -57,30 +62,31 @@ export const LoadingFormComponent = (
                 <tbody>
                     <tr>
                         <th scope="row" className="text-end">
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </th>
                         <td>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </td>
                         <td>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </td>
                         <td>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </td>
                         <td>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </td>
                         <td colSpan={2}>
-                            <span className="form-control col-12 placeholder"></span>
+                            <Placeholder />
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </Table>
             
-            <button type="button" disabled className="btn btn-primary col-4 placeholder"></button>
-            <button type="button" disabled className="btn btn-secondary col-4 placeholder ms-2"></button>
-        </div>
+            <Placeholder.Button variant="dark" xs={4} />
+            { ` ` }
+            <Placeholder.Button variant="secondary" xs={4} />
+        </Placeholder>
     );
 };
 

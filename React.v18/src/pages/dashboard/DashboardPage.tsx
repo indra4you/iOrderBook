@@ -11,8 +11,6 @@ import {
 } from '../../components';
 import {
     DataStatus,
-} from '../../domains';
-import {
     OrderProductResponse,
     OrderResponse,
     ProductModel,
@@ -140,7 +138,7 @@ export const DashboardPage = (
     );
     
     return (
-        <section className="container">
+        <>
             <PageTitleComponent title="Dashboard" />
 
             {
@@ -172,7 +170,7 @@ export const DashboardPage = (
                         />
                     </>
             }
-        </section>
+        </>
     );
 };
 

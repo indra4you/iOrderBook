@@ -3,6 +3,10 @@ import {
     useState,
 } from 'react';
 import {
+    Button,
+    Offcanvas,
+} from 'react-bootstrap';
+import {
     FieldValues,
     useForm,
 } from 'react-hook-form';
@@ -118,133 +122,132 @@ export const OrderProductFormComponent = (
     };
 
     return (
-        <>
-            <div className="offcanvas offcanvas-end show" tabIndex={-1} aria-modal="true" role="dialog">
-                <div className="offcanvas-header text-bg-primary">
-                    <h5 className="offcanvas-title">
-                        {
-                            hasValidOrderProduct() &&
-                                <span className="me-2">Edit</span>
-                        }
-                        {
-                            !hasValidOrderProduct() &&
-                                <span className="me-2">Add</span>
-                        }
-                        Product
-                    </h5>
-                </div>
+        <Offcanvas show={true} onHide={onCancelClicked} placement="end">
+            <Offcanvas.Header className="text-bg-dark">
+                <Offcanvas.Title>
+                    <i className="bi bi-receipt me-2"></i>
 
-                <div className="offcanvas-body">
-                    
                     {
-                        isLoading &&
-                            <LoadingFormComponent noOfFields={4} />
+                        hasValidOrderProduct() &&
+                            <span className="me-2">Edit</span>
                     }
 
                     {
-                        !isLoading &&
-                            <form onSubmit={handleSubmit(onSubmitClicked)}>
-                                <fieldset>
-                                    <div className="mb-3">
-                                        <label htmlFor="productId" className="form-label">Product</label>
+                        !hasValidOrderProduct() &&
+                            <span className="me-2">Add</span>
+                    }
 
-                                        <select id="productId"
-                                            className={`form-control ${errors.productId ? 'is-invalid' : 'is-valid'}`}
-                                            {
-                                                ...register(
-                                                    `productId`, {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'Product is required',
-                                                        },
-                                                    }
-                                                )
-                                            }>
+                    Product
+                </Offcanvas.Title>
+            </Offcanvas.Header>
 
-                                            {
-                                                !hasValidOrderProduct() &&
-                                                    <option value="" disabled>--- Select Product ---</option>
-                                            }
+            <Offcanvas.Body>
+                {
+                    isLoading &&
+                        <LoadingFormComponent noOfFields={4} />
+                }
 
-                                            {
-                                                products
-                                                    .map(
-                                                        (product: ProductResponse) => {
-                                                            return (
-                                                                <option key={product.id} value={product.id}>{ product.name }</option>
-                                                            );
-                                                        }
-                                                    )
-                                            }
-                                        </select>
-                                        
+                {
+                    !isLoading &&
+                        <form onSubmit={handleSubmit(onSubmitClicked)}>
+                            <fieldset>
+                                <div className="mb-3">
+                                    <label htmlFor="productId" className="form-label">Product</label>
+
+                                    <select id="productId"
+                                        className={`form-control ${errors.productId ? 'is-invalid' : 'is-valid'}`}
                                         {
-                                            errors.productId && (
-                                                <div className="invalid-feedback">
-                                                    { errors.productId.message }
-                                                </div>
+                                            ...register(
+                                                `productId`, {
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Product is required',
+                                                    },
+                                                }
                                             )
-                                        }
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label htmlFor="numberOfPackets" className="form-label">Number of Packets</label>
-
-                                        <input type="number" id="numberOfPackets" inputMode="numeric" min="1"
-                                            className={`form-control ${errors.numberOfPackets ? 'is-invalid' : 'is-valid'}`}
-                                            {
-                                                ...register(
-                                                    'numberOfPackets', {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'Number of Packets is required',
-                                                        },
-                                                        min: {
-                                                            value: 1,
-                                                            message: 'Number of Packets should be at least 1',
-                                                        },
-                                                        valueAsNumber: true,
-                                                    }
-                                                )
-                                            } />
+                                        }>
 
                                         {
-                                            errors.numberOfPackets && (
-                                                <div className="invalid-feedback">
-                                                    { errors.numberOfPackets.message }
-                                                </div>
-                                            )
+                                            !hasValidOrderProduct() &&
+                                                <option value="" disabled>--- Select Product ---</option>
                                         }
-                                    </div>
-                                </fieldset>
 
-                                <button type="submit" disabled={!isDirty || !isValid || isSubmitting} className="btn btn-primary">
+                                        {
+                                            products
+                                                .map(
+                                                    (product: ProductResponse) => {
+                                                        return (
+                                                            <option key={product.id} value={product.id}>{ product.name }</option>
+                                                        );
+                                                    }
+                                                )
+                                        }
+                                    </select>
+                                    
                                     {
-                                        isSubmitting &&
-                                            <div className="spinner-border spinner-border-sm" role="status">
-                                                <span className="visually-hidden">Loading...</span>
+                                        errors.productId && (
+                                            <div className="invalid-feedback">
+                                                { errors.productId.message }
                                             </div>
+                                        )
                                     }
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="numberOfPackets" className="form-label">Number of Packets</label>
+
+                                    <input type="number" id="numberOfPackets" inputMode="numeric" min="1"
+                                        className={`form-control ${errors.numberOfPackets ? 'is-invalid' : 'is-valid'}`}
+                                        {
+                                            ...register(
+                                                'numberOfPackets', {
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Number of Packets is required',
+                                                    },
+                                                    min: {
+                                                        value: 1,
+                                                        message: 'Number of Packets should be at least 1',
+                                                    },
+                                                    valueAsNumber: true,
+                                                }
+                                            )
+                                        } />
 
                                     {
-                                        !isSubmitting &&
-                                            <i className="bi bi-hdd"></i>
+                                        errors.numberOfPackets && (
+                                            <div className="invalid-feedback">
+                                                { errors.numberOfPackets.message }
+                                            </div>
+                                        )
                                     }
+                                </div>
+                            </fieldset>
 
-                                    <span className="ms-2">Save</span>
-                                </button>
+                            <Button type="submit" disabled={!isDirty || !isValid || isSubmitting} variant="dark">
+                                {
+                                    isSubmitting &&
+                                        <div className="spinner-border spinner-border-sm" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                }
 
-                                <button type="reset" onClick={onCancelClicked} disabled={isSubmitting} className="btn btn-outline-secondary ms-2">
-                                    <i className="bi bi-x-lg"></i>
-                                    <span className="ms-2">Cancel</span>
-                                </button>
-                            </form>
-                    }
-                </div>
-            </div>
+                                {
+                                    !isSubmitting &&
+                                        <i className="bi bi-hdd"></i>
+                                }
 
-            <div className="offcanvas-backdrop fade show"></div>
-        </>
+                                <span className="ms-2">Save</span>
+                            </Button>
+
+                            <Button type="reset" onClick={onCancelClicked} disabled={isSubmitting} variant="outline-secondary" className="ms-2">
+                                <i className="bi bi-x-lg"></i>
+                                <span className="ms-2">Cancel</span>
+                            </Button>
+                        </form>
+                }
+            </Offcanvas.Body>
+        </Offcanvas>
     );
 };
 

@@ -3,6 +3,15 @@ import {
     useState,
 } from 'react';
 import {
+    Alert,
+    Breadcrumb,
+    Button,
+    Col,
+    Container,
+    Row,
+    Table,
+} from 'react-bootstrap';
+import {
     FieldArrayWithId,
     FieldValues,
     useFieldArray,
@@ -18,13 +27,10 @@ import {
 } from 'react-router-dom';
 
 import {
-    AlertComponent,
     PageTitleComponent,
 } from '../../components';
 import {
     isNotNullOrEmpty,
-} from '../../Extensions';
-import {
     OrderProductResponse,
     OrderRequest,
     OrderResponse,
@@ -231,37 +237,43 @@ export const OrderFormPage = (
     };
 
     return (
-        <>
+        <div className="pt-4 py-md-4">
             <PageTitleComponent title={hasValidId() ? "Edit Order" : "Add Order"} />
 
-            <section className="container">
-                <h1 className="my-3" aria-label="breadcrumb">
-                    <ul className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link to="/orders" title="Go back to Orders">Orders</Link>
-                        </li>
+            <Container>
+                <Breadcrumb className="h1">
+                    <Breadcrumb.Item>
+                        <Link to="/orders" title="Go back to Orders">
+                            <i className="bi bi-postcard"></i>
+                            <span className="ms-2">Orders</span>
+                        </Link>
+                    </Breadcrumb.Item>
 
-                        {
-                            hasValidId() &&
-                                <>
-                                    <li className="breadcrumb-item">
-                                        <Link to={`/orders/${id}`} title="View Orders">#{ id }</Link>
-                                    </li>
+                    {
+                        hasValidId() &&
+                            <>
+                                <Breadcrumb.Item>
+                                    <Link  to={`/orders/${id}`} title="View Orders">
+                                        <i className="bi bi-binoculars"></i>
+                                        <span className="mx-2">#{ id }</span>
+                                    </Link>
+                                </Breadcrumb.Item>
 
-                                    <li className="breadcrumb-item active" aria-current="page">
-                                        <span className="me-2">Edit</span>
-                                    </li>
-                                </>
-                        }
+                                <Breadcrumb.Item active>
+                                    <i className="bi bi-pencil"></i>
+                                    <span className="mx-2">Edit</span>
+                                </Breadcrumb.Item>
+                            </>
+                    }
 
-                        {
-                            !hasValidId() &&
-                                <li className="breadcrumb-item active" aria-current="page">
-                                    <span className="me-2">Add</span>
-                                </li>
-                        }
-                    </ul>
-                </h1>
+                    {
+                        !hasValidId() &&
+                            <Breadcrumb.Item active>
+                                <i className="bi bi-plus-circle-dotted"></i>
+                                <span className="mx-2">Add</span>
+                            </Breadcrumb.Item>
+                    }
+                </Breadcrumb>
 
                 {
                     isLoading &&
@@ -270,16 +282,23 @@ export const OrderFormPage = (
 
                 {
                     hasError() &&
-                        <AlertComponent
-                            message={errorMessage}
-                            icon="exclamation"
-                            type="danger"
-                            onOffcanvas={false} />
+                        <Row>
+                            <Col xs="1" md="3"></Col>
+
+                            <Col xs="10" md="6">
+                                <Alert variant="danger">
+                                    <i className='bi bi-patch-exclamation me-3'></i>
+                                    { errorMessage }
+                                </Alert>
+                            </Col>
+
+                            <Col xs="1" md="3"></Col>
+                        </Row>
                 }
 
                 {
                     !isLoading &&
-                        <form onSubmit={handleSubmit(onSubmitClicked)}>
+                        <form onSubmit={handleSubmit(onSubmitClicked)} className="mb-3">
                             <fieldset>
                                 <div className="row">
                                     <div className="col-md-8 mb-3">
@@ -349,13 +368,13 @@ export const OrderFormPage = (
                                 <h3 className="mt-3">
                                     Products
 
-                                    <button type="button" onClick={onAddOrderProductClicked} className="border-0 bg-transparent text-primary ms-2" title="Add Product">
+                                    <button type="button" onClick={onAddOrderProductClicked} className="border-0 bg-transparent text-dark ms-2" title="Add Product">
                                         <i className="bi bi-plus-circle-dotted"></i>
                                     </button>
                                 </h3>
 
                                 <div className="table-responsive border rounded mb-3">
-                                    <table className="table table-hover table-striped align-middle mb-0">
+                                    <Table className="table table-hover table-striped align-middle mb-0">
                                         <colgroup>
                                             <col width="3%" />
                                             <col />
@@ -384,7 +403,7 @@ export const OrderFormPage = (
                                                     <tr>
                                                         <td colSpan={7} className="lead text-center text-muted py-2">
                                                             Click
-                                                            <button type="button" onClick={onAddOrderProductClicked} className="border-0 bg-transparent text-primary" title="Add Product">
+                                                            <button type="button" onClick={onAddOrderProductClicked} className="border-0 bg-transparent text-dark" title="Add Product">
                                                                 <i className="bi bi-plus-circle-dotted"></i>
                                                             </button>
                                                             to add a product
@@ -406,7 +425,7 @@ export const OrderFormPage = (
                                                                     <td className="text-end">{ field.amount } ₹</td>
                                                                     <td className="text-end">
                                                                         <div className="btn-group">
-                                                                            <button type="button" onClick={() => onEditOrderProductClicked(index, field)} className="btn btn-outline-primary" title="Edit Product">
+                                                                            <button type="button" onClick={() => onEditOrderProductClicked(index, field)} className="btn btn-outline-dark" title="Edit Product">
                                                                                 <i className="bi bi-pencil"></i>
                                                                             </button>
                                                                             
@@ -420,11 +439,11 @@ export const OrderFormPage = (
                                                         })
                                             }
                                         </tbody>
-                                    </table>
+                                    </Table>
                                 </div>
                             </fieldset>
 
-                            <button type="submit" disabled={!isDirty || !isValid || isSubmitting} className="btn btn-primary" title="Save Order">
+                            <Button type="submit" disabled={!isDirty || !isValid || isSubmitting} variant="dark" title="Save Order">
                                 {
                                     isSubmitting &&
                                         <div className="spinner-border spinner-border-sm" role="status">
@@ -438,7 +457,7 @@ export const OrderFormPage = (
                                 }
 
                                 <span className="ms-2">Save</span>
-                            </button>
+                            </Button>
 
                             <Link to="/orders" className="btn btn-outline-secondary ms-2" title="Go back to Orders">
                                 <i className="bi bi-x-lg"></i>
@@ -446,7 +465,7 @@ export const OrderFormPage = (
                             </Link>
                         </form>
                 }
-            </section>
+            </Container>
 
             {
                 showForm &&
@@ -457,7 +476,7 @@ export const OrderFormPage = (
                 showDelete &&
                     <OrderProductDeleteComponent orderProduct={selectedOrderProduct!} onClose={onDeleteClosed} />
             }
-        </>
+        </div>
     );
 };
 
