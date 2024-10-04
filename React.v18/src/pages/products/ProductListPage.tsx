@@ -110,9 +110,12 @@ export const ProductListPage = (
                     <i className="bi bi-receipt me-2"></i>
                     Products
 
-                    <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-dark ms-2" title="Add Product">
-                        <i className="bi bi-plus-circle-dotted"></i>
-                    </button>
+                    {
+                        !dataStatus.isLoading &&
+                            <button type="button" onClick={onAddProductClicked} className="border-0 bg-transparent text-dark ms-2" title="Add Product">
+                                <i className="bi bi-plus-circle-dotted"></i>
+                            </button>
+                    }
                 </h1>
 
                 <div className="table-responsive border rounded mb-3">

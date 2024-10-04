@@ -6,6 +6,7 @@ import {
     Alert,
     Breadcrumb,
     Button,
+    ButtonGroup,
     Col,
     Container,
     Row,
@@ -424,15 +425,15 @@ export const OrderFormPage = (
                                                                     <td className="text-end">{ field.numberOfPackets }</td>
                                                                     <td className="text-end">{ field.amount } ₹</td>
                                                                     <td className="text-end">
-                                                                        <div className="btn-group">
-                                                                            <button type="button" onClick={() => onEditOrderProductClicked(index, field)} className="btn btn-outline-dark" title="Edit Product">
+                                                                        <ButtonGroup>
+                                                                            <Button type="button" onClick={() => onEditOrderProductClicked(index, field)} variant="outline-dark" title="Edit Product">
                                                                                 <i className="bi bi-pencil"></i>
-                                                                            </button>
+                                                                            </Button>
                                                                             
-                                                                            <button type="button" onClick={() => onDeleteOrderProductClicked(index, field)} className="btn btn-outline-danger" title="Delete Product">
+                                                                            <Button type="button" onClick={() => onDeleteOrderProductClicked(index, field)} variant="outline-danger" title="Delete Product">
                                                                                 <i className="bi bi-trash3"></i>
-                                                                            </button>
-                                                                        </div>
+                                                                            </Button>
+                                                                        </ButtonGroup>
                                                                     </td>
                                                                 </tr>
                                                             )

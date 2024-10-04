@@ -4,6 +4,7 @@ import {
     Row,
     Table,
 } from 'react-bootstrap';
+import { LoadingTableBodyComponent } from '../../../components';
 
 export const LoadingFormComponent = (
 ): JSX.Element => {
@@ -33,59 +34,31 @@ export const LoadingFormComponent = (
                     <col />
                     <col />
                     <col />
-                    <col width="3%" />
                 </colgroup>
 
                 <thead>
                     <tr>
-                        <th scope="col">
-                            <Placeholder />
-                        </th>
-                        <th scope="col">
-                            <Placeholder />
-                        </th>
-                        <th scope="col">
-                            <Placeholder />
-                        </th>
-                        <th scope="col">
-                            <Placeholder />
-                        </th>
-                        <th scope="col">
-                            <Placeholder />
-                        </th>
-                        <th scope="col" colSpan={2}>
-                            <Placeholder />
-                        </th>
+                        <th scope="col"></th>
+                        <th scope="col">Product</th>
+                        <th scope="col" className="text-end">Quantity</th>
+                        <th scope="col" className="text-end">Price</th>
+                        <th scope="col" className="text-end">No of Packets</th>
+                        <th scope="col" className="text-end">Amount</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <th scope="row" className="text-end">
-                            <Placeholder />
-                        </th>
-                        <td>
-                            <Placeholder />
-                        </td>
-                        <td>
-                            <Placeholder />
-                        </td>
-                        <td>
-                            <Placeholder />
-                        </td>
-                        <td>
-                            <Placeholder />
-                        </td>
-                        <td colSpan={2}>
-                            <Placeholder />
-                        </td>
-                    </tr>
+                    <LoadingTableBodyComponent noOfRows={3} noOfColumns={7} />
                 </tbody>
             </Table>
             
-            <Placeholder.Button variant="dark" xs={4} />
-            { ` ` }
-            <Placeholder.Button variant="secondary" xs={4} />
+            <Placeholder.Button variant="dark">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </Placeholder.Button>
+            &nbsp;&nbsp;
+            <Placeholder.Button variant="secondary">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </Placeholder.Button>
         </Placeholder>
     );
 };

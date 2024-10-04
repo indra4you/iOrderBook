@@ -5,8 +5,12 @@ import {
 import {
     Alert,
     AlertHeading,
+    Button,
+    ButtonGroup,
     Col,
     Container,
+    Dropdown,
+    DropdownButton,
     Row,
     Table,
 } from 'react-bootstrap';
@@ -144,9 +148,12 @@ export const OrderListPage = (
                                 <i className="bi bi-postcard me-2"></i>
                                 Orders
 
-                                <Link to="/orders/add" className="text-dark ms-3" title="Add Order">
-                                    <i className="bi bi-plus-circle-dotted"></i>
-                                </Link>
+                                {
+                                    !dataStatus.isLoading &&
+                                        <Link to="/orders/add" className="text-dark ms-3" title="Add Order">
+                                            <i className="bi bi-plus-circle-dotted"></i>
+                                        </Link>
+                                }
                             </h1>
 
                             <div className="table-responsive border rounded mb-3">
@@ -213,24 +220,33 @@ export const OrderListPage = (
                                                                         </span>
                                                                     </td>
                                                                     <td className="text-end">
-                                                                        <div className="btn-group">
-                                                                            <Link to={`/orders/${order.id}`} className="btn btn-outline-secondary" title="View Order">
-                                                                                <i className="bi bi-binoculars"></i>
-                                                                            </Link>
-
+                                                                        <ButtonGroup>
                                                                             {
                                                                                 canEdit(order.status) &&
                                                                                     <>
                                                                                         <Link to={`/orders/${order.id}/edit`} className="btn btn-outline-dark" title="Edit Order">
                                                                                             <i className="bi bi-pencil"></i>
                                                                                         </Link>
-                                                                                        
-                                                                                        <Link to={`/orders/${order.id}/delete`} className="btn btn-outline-danger" title="Delete Order">
-                                                                                            <i className="bi bi-trash3"></i>
-                                                                                        </Link>
                                                                                     </>
                                                                             }
-                                                                        </div>
+
+                                                                            <DropdownButton as={ButtonGroup} title="" variant="outline-secondary">
+                                                                                <Dropdown.Item as={Link} to={`/orders/${order.id}`} title="View Order">
+                                                                                    <i className="bi bi-binoculars me-2"></i>
+                                                                                    View Order
+                                                                                </Dropdown.Item>
+
+                                                                                {
+                                                                                    canEdit(order.status) &&
+                                                                                        <>
+                                                                                            <Dropdown.Item as={Link} to={`/orders/${order.id}/delete`} className="text-danger" title="Delete Order">
+                                                                                                <i className="bi bi-trash3 me-2"></i>
+                                                                                                Delete Order
+                                                                                            </Dropdown.Item>
+                                                                                        </>
+                                                                                }
+                                                                            </DropdownButton>
+                                                                        </ButtonGroup>
                                                                     </td>
                                                                 </tr>
                                                             )
