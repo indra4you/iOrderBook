@@ -55,7 +55,7 @@ export class DataService extends FileService {
         await this.writeString(jsonString);
     }
 
-    private resetRoot(
+    protected resetRoot(
     ): void {
         this._root = {
             eTag: this.newGuid,

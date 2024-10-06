@@ -34,10 +34,15 @@ export type OrderRequest = {
     products: OrderProductModel[],
 };
 
-export class OrdersService {
+export class OrdersService extends EventTarget {
+    public static ADDED_EVENT_NAME: string = 'orderAdded';
+    public static MODIFIED_EVENT_NAME: string = 'orderModified';
+    public static DELETED_EVENT_NAME: string = 'orderDeleted';
+
     constructor(
         private readonly _dataService: DataService,
     ) {
+        super();
     }
 
     private toOrderProductResponse(
@@ -210,6 +215,13 @@ export class OrdersService {
 
         root.orders.push(order);
         await this._dataService.saveRoot(root);
+
+        const orderAddedEvent: CustomEvent<OrderModel> = new CustomEvent(
+            OrdersService.ADDED_EVENT_NAME, {
+                detail: order,
+            }
+        );
+        this.dispatchEvent(orderAddedEvent);
     }
 
     public async modify(
@@ -263,6 +275,13 @@ export class OrdersService {
 
         root.orders[index] = order;
         await this._dataService.saveRoot(root);
+
+        const orderModifiedEvent: CustomEvent<OrderModel> = new CustomEvent(
+            OrdersService.MODIFIED_EVENT_NAME, {
+                detail: order,
+            }
+        );
+        this.dispatchEvent(orderModifiedEvent);
     }
 
     public async delete(
@@ -280,7 +299,16 @@ export class OrdersService {
             );
         }
 
+        const order: OrderModel = root.orders[index];
+
         root.orders.splice(index, 1);
         await this._dataService.saveRoot(root);
+
+        const orderDeletedEvent: CustomEvent<OrderModel> = new CustomEvent(
+            OrdersService.DELETED_EVENT_NAME, {
+                detail: order,
+            }
+        );
+        this.dispatchEvent(orderDeletedEvent);
     }
 };

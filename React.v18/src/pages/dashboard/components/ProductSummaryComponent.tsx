@@ -68,7 +68,7 @@ export const ProductSummaryComponent = (
                 <h1 className="my-4">Products</h1>
 
                 <div className="table-responsive border rounded mb-5">
-                    <Table className="table table-hover table-striped align-middle mb-0">
+                    <Table striped hover className="align-middle mb-0">
                         <colgroup>
                             <col width="3%" />
                             <col />

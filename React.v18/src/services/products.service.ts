@@ -21,10 +21,15 @@ export type ProductRequest = {
     sort: number,
 };
 
-export class ProductsService {
+export class ProductsService extends EventTarget {
+    public static ADDED_EVENT_NAME: string = 'productAdded';
+    public static MODIFIED_EVENT_NAME: string = 'productModified';
+    public static DELETED_EVENT_NAME: string = 'productDeleted';
+
     constructor(
         private readonly _dataService: DataService,
     ) {
+        super();
     }
 
     private toProductResponse(
@@ -45,7 +50,7 @@ export class ProductsService {
             price: product.price,
             sort: product.sort,
             hasOrders: hasOrders,
-        }
+        };
     }
 
     private toProductResponses(
@@ -94,6 +99,13 @@ export class ProductsService {
 
         root.products.push(product);
         await this._dataService.saveRoot(root);
+
+        const productAddedEvent: CustomEvent<ProductModel> = new CustomEvent(
+            ProductsService.ADDED_EVENT_NAME, {
+                detail: product,
+            }
+        );
+        this.dispatchEvent(productAddedEvent);
     }
 
     public async modify(
@@ -131,6 +143,13 @@ export class ProductsService {
 
         root.products[index] = product;
         await this._dataService.saveRoot(root);
+
+        const productModifiedEvent: CustomEvent<ProductModel> = new CustomEvent(
+            ProductsService.MODIFIED_EVENT_NAME, {
+                detail: product,
+            }
+        );
+        this.dispatchEvent(productModifiedEvent);
     }
 
     public async delete(
@@ -160,7 +179,16 @@ export class ProductsService {
             );
         }
 
+        const product: ProductModel = root.products[index];
+
         root.products.splice(index, 1);
         await this._dataService.saveRoot(root);
+
+        const productDeletedEvent: CustomEvent<ProductModel> = new CustomEvent(
+            ProductsService.DELETED_EVENT_NAME, {
+                detail: product,
+            }
+        );
+        this.dispatchEvent(productDeletedEvent);
     }
 };
